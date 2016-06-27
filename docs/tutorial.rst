@@ -368,31 +368,30 @@ The following code is present in ``config.cfg`` which can be found in folder ``/
     # output file name prefix
     output_prefix = ../experiments/piriform/N4/out
     
+Training the N4 network
+```````````````````````
+After setting up the configuration file, you can now train your network. You need to run training as root. Please enter ``sudo su`` in the terminal after you have ssh-ed to your AWS instance (the instance launched using the ZNN AWS AMI image). 
 
-Run a training
-``````````````
-After setting up the configuration file, you can now train your networks. 
-
-Make sure you run the following command from within the `znn-release/python` directory. This is a limitation that can be fixed in future releases.
+Make sure you run the following command from within the `/opt/znn-release/python` directory. This is a limitation that can be fixed in future releases.
 ::
     python train.py -c path/of/config.cfg 
 
-Resume a training
-`````````````````
+Resume training the N4 network
+``````````````````````````````
 Since the network is periodically saved, we can resume training whenever we want to. By default, ZNN will automatically resume the latest training net (``net_current.h5``) in a folder, which was specified by the ``train_net`` parameter in the configuration file. 
 
 To resume training a specific network, we can use the seeding function:
 ::
     python train.py -c path/of/config.cfg -s path/of/seed.h5
 
-Transfer learning
-`````````````````
+Transfer learning using the N4 network
+``````````````````````````````````````
 Sometimes, we would like to utilize a trained network. If the network architectures of trained and initialized network are the same, we call it ``Loading``. Otherwise, we call it ``Seeding``, in which case the trained net is used as a seed to initialize part of the new network. Our implementation merges ``Loading`` and ``Seeding``. Just use the synonymous ``-s`` or ``--seed`` command line flags. 
 ::
     python train.py -c path/of/config.cfg -s path/of/seed.h5
 
-Forward Pass
-------------
+Forward Pass using the N4 network
+---------------------------------
 run the following command:
 ::
     python forward.py -c path/of/config.cfg
@@ -405,7 +404,6 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 - Publicly available ZNN AWS AMI
 - Describe all the code in plain English using comments
 - Add in tables etc in appendix
-- State that need to do ``sudo su`` before training
-- Do we want to add in AWS tutorial too?
+- Do we want to add in AWS tutorial too (see http://cs224d.stanford.edu/supplementary/aws-tutorial-2.pdf)?
 - State which instance type to use
 - Be clearer about output size parameter and effect on memory
