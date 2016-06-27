@@ -1,7 +1,7 @@
 ZNN + AWS Tutorial
 ==================
 
-The tutorial will help you learn how to use the ZNN AWS AMI by training a CNN to perform boundary detection on the ISBI 2012 dataset. In particular, the tutorial will focus on the training of the N4 network described in the paper `"Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" <https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images>`_.
+The tutorial will help you learn how to use the ZNN AWS AMI by training a CNN to perform boundary detection. In particular, the tutorial will focus on the training of the N4 network described in the paper `"Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" <https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images>`_.
 
 The tutorial focuses on usage of the python interface since it is more convenient to use.
 
@@ -22,12 +22,7 @@ label image     .tif              32 or RGB
 * For training, you should prepare pairs of ``.tif`` files, one is a stack of raw images, the other is a stack of labeled images. A label is defined as a unique RGBA color.
 * For forward pass, only the raw image stack is needed.
 
-The ISBI 2012 challenge dataset is already provided in the AMI. It can be found in the following folder: ``/opt/znn-release/dataset/ISBI2012``. 
-
-For further information about the ISBI 2012 dataset, please see the websites below:
-
-* http://brainiac2.mit.edu/isbi_challenge/home
-* http://journal.frontiersin.org/article/10.3389/fnana.2015.00142/full
+The dataset is already provided in the AMI. It can be found in the folder ``/opt/znn-release/dataset/test``. This folder should contain the following files: ``dataset.spec``, ``stack1-label.tif``, ``stack2-label.tif``, ``stack1-image.tif`` and ``stack2-image.tif``.
 
 Image configuration
 ```````````````````
@@ -38,16 +33,11 @@ The image pairs are defined as a **Sample**.
 
 The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment. A binding of inputs to outputs is called a sample.
 
-The following code can be found in the ``dataset.spec`` file provided with the ISBI 2012 dataset (see folder ``/opt/znn-release/dataset/ISBI2012``):
+The following code can be found in the ``dataset.spec`` file in the folder ``/opt/znn-release/dataset/test``:
 ::
     # samples example
     # the [image] sections indicate the network inputs
     # format should be gray images with any bit depth.
-    #
-    # input preprocessing types:
-    # standard2D: minus by mean and than normalize by standard deviation
-    # standard3D: normalize for the whole 3D volume
-    # symetric_rescale: rescale to [ -1, 1 ]
     #
     # [image1]
     # fnames =  path/of/image1.tif/h5,
@@ -66,7 +56,7 @@ The following code can be found in the ``dataset.spec`` file provided with the I
     # preprocessing type: one_class, binary_class, none, affinity
     # pp_types = binary_class, binary_class
     # fmasks = path/of/mask1.tif/h5,
-    #	   path/of/mask2.tif/h5
+    #      path/of/mask2.tif/h5
     #
     # [sample] section indicates the group of the corresponding input and output labels
     # the name should be the same with the one in the network config file
@@ -78,13 +68,46 @@ The following code can be found in the ``dataset.spec`` file provided with the I
     # output2 = 2
     
     [image1]
-    fnames = ../dataset/ISBI2012/train-volume.tif
+    fnames = ../dataset/test/stack1-image.tif
+    pp_types = standard2D
+    is_auto_crop = yes
+    
+    [image2]
+    fnames = ../dataset/test/stack2-image.tif
+    pp_types = standard2D
+    is_auto_crop = yes
+    
+    [image3]
+    fnames = ../dataset/test/stack3-image.tif
+    pp_types = standard2D
+    is_auto_crop = yes
+    
+    [image4]
+    fnames = ../dataset/test/stack4-image.tif
     pp_types = standard2D
     is_auto_crop = yes
     
     [label1]
-    fnames = ../dataset/ISBI2012/train-labels.tif
-    pp_types = auto
+    fnames = ../dataset/test/stack1-label.tif
+    pp_types = binary_class
+    is_auto_crop = yes
+    fmasks =
+    
+    [label2]
+    fnames = ../dataset/test/stack2-label.tif
+    pp_types = binary_class
+    is_auto_crop = yes
+    fmasks =
+    
+    [label3]
+    fnames = ../dataset/test/stack3-label.tif
+    pp_types = binary_class
+    is_auto_crop = yes
+    fmasks =
+    
+    [label4]
+    fnames = ../dataset/test/stack4-label.tif
+    pp_types = binary_class
     is_auto_crop = yes
     fmasks =
     
@@ -92,13 +115,18 @@ The following code can be found in the ``dataset.spec`` file provided with the I
     input = 1
     output = 1
     
-    [image2]
-    fnames = ../dataset/ISBI2012/test-volume.tif
-    pp_types = standard2D
-    is_auto_crop = yes
-    
     [sample2]
     input = 2
+    output = 2
+    
+    [sample3]
+    input = 3
+    output = 3
+    
+    [sample4]
+    input = 4
+    output = 4
+
 
 2. Network Architecture Configuration
 -------------------------------------
@@ -601,3 +629,4 @@ For more examples, please refer to the folder ``/opt/znn-release/networks``.
 - Do we want to add in AWS tutorial too (see http://cs224d.stanford.edu/supplementary/aws-tutorial-2.pdf)?
 - State which instance type to use
 - Be clearer about output size parameter and effect on memory
+- See ``dataset.spec`` file. There are missing datafiles (``stack3-label.tif``, ``stack4-label.tif``, ``stack3-image.tif`` and ``stack4-image.tif``)
