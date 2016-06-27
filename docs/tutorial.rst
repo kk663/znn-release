@@ -10,7 +10,7 @@ Since the python interface is more convenient to use, this tutorial only focuses
 
 Image format
 ````````````
-ZNN accepts datasets that consist of 3D ``tif`` or ``h5`` image stacks.
+ZNN accepts datasets that consist of 3D ``.tif`` or ``.h5`` image stacks.
 
 ============== ================= ===========
 type            format            bit depth
@@ -19,95 +19,84 @@ raw image       .tif              8
 label image     .tif              32 or RGB
 ============== ================= ===========
 
-* For training, you should prepare pairs of ``tif`` files, one is a stack of raw images, the other is a stack of labeled images. A label is defined as a unique RGBA color.
+* For training, you should prepare pairs of ``.tif`` files, one is a stack of raw images, the other is a stack of labeled images. A label is defined as a unique RGBA color.
 * For forward pass, only the raw image stack is needed.
+
+The ISBI 2012 challenge dataset is already provided in the AMI. It can be found in the following folder ``/opt/znn-release/dataset/ISBI2012``. 
+
+For further information about the ISBI 2012 dataset, please see the websites below:
+* http://brainiac2.mit.edu/isbi_challenge/home
+* http://journal.frontiersin.org/article/10.3389/fnana.2015.00142/full
 
 Image configuration
 ```````````````````
 
-Next create a ``.spec`` file that provides the binding between your dataset and ground truth.
+ZNN requires a ``.spec`` file that provides the binding between the raw images and the labelled images (i.e. ground truth) in the dataset.
 
 The image pairs are defined as a **Sample**. Start with this `example <https://github.com/seung-lab/znn-release/blob/master/dataset/ISBI2012/dataset.spec>`_ and customize it to suit your needs. 
 
 The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment. A binding of inputs to outputs is called a sample.
 
-The file structure looks like this, where "N" in imageN can be any positive integer. Items contained inside angle brackets are <option1, option2> etc.
 ::
-    [imageN]
-    fnames = path/of/image1
-             path/of/image2
-    pp_types = <standard2D, none> # preprocess the image by subtracting mean
-    is_auto_crop = <yes, no> # crop images to mutually fit and fit ground truth labels
-
-    [labelN]
-    fnames = path/of/label1
-    pp_types = <one_class, binary_class, affinity, none>
-    is_auto_crop = <yes, no>
-    fmasks =  path/of/mask1
-              path/of/mask1
-
-    [sampleN]
+    # samples example
+    # the [image] sections indicate the network inputs
+    # format should be gray images with any bit depth.
+    #
+    # input preprocessing types:
+    # standard2D: minus by mean and than normalize by standard deviation
+    # standard3D: normalize for the whole 3D volume
+    # symetric_rescale: rescale to [ -1, 1 ]
+    #
+    # [image1]
+    # fnames =  path/of/image1.tif/h5,
+    #           path/of/image2.tif/h5
+    # pp_types = standard2D, none
+    # is_auto_crop = yes
+    #
+    # the [label] sections indicate ground truth of network outputs
+    # format could be 24bit RGB or gray image with any bit depth.
+    # the mask images should be binary image with any bit depth.
+    # only the voxels with gray value greater than 0 is effective for training.
+    #
+    # [label1]
+    # fnames = path/of/image3.tif/h5,
+    #          path/of/image4.tif/h5
+    # preprocessing type: one_class, binary_class, none, affinity
+    # pp_types = binary_class, binary_class
+    # fmasks = path/of/mask1.tif/h5,
+    #	   path/of/mask2.tif/h5
+    #
+    # [sample] section indicates the group of the corresponding input and output labels
+    # the name should be the same with the one in the network config file
+    #
+    # [sample1]
+    # input1 = 1
+    # input2 = 2
+    # output1 = 1
+    # output2 = 2
+    
+    [image1]
+    fnames = ../dataset/ISBI2012/train-volume.tif
+    pp_types = standard2D
+    is_auto_crop = yes
+    
+    [label1]
+    fnames = ../dataset/ISBI2012/train-labels.tif
+    pp_types = auto
+    is_auto_crop = yes
+    fmasks =
+    
+    [sample1]
     input = 1
-    output = 1  
-
-[imageN] options
-````````````````
-Declaration of source images to train on.
-
-Required:
-
-1. ``fnames``: Paths to image stack files.
-
-Optional:
-
-1. ``pp_types`` (preprocessing types): none (default), standard2D, standard3D, symetric_rescale  
-::
-    standard2D modifies the image by subtracting the mean and dividing by the standard deviation of the pixel values.
-    standard3D normalize for whole 3D volume like standard2D  
-    symmetric_rescale rescales to [ -1, 1 ]  
-
-2. ``is_auto_crop``: no (default), yes 
-    If the corresponding ground truth stack's images are not the same dimension as the image set (e.g. image A is 1000px x 1000px and label A is 100px x 100px), then the smaller image will be centered in the larger image and the larger image will be cropped around it.
-
-
-[labelN] options
-````````````````
-Declaration of ground truth labels to evaluate training on.
-
-Required:
-
-1. ``fnames``: Paths to label stack files.
-
-Optional:
-
-1. ``pp_types`` (preprocessing types): none (default), one_class, binary_class, affinity
-
-==================== =========================================================
- Preprocessing Type  Function
-==================== =========================================================
- none                Don't do anything.
- one_class           Normalize values, threshold at 0.5
- binary_class        one_class + generate extra inverted version
- affinity            Generate X, Y, & Z stacks for training on different axes   
-==================== =========================================================
-
-2. ``is_auto_crop``: no (default), yes 
-    If the corresponding ground truth stack's images are not the same dimension as the image set (e.g. image A is 1000px x 1000px and label A is 100px x 100px), then the smaller image will be centered in the larger image and the larger image will be cropped around it.
-
-3. ``fmasks``: Paths to mask files
-    fmasks are used like cosmetics to coverup damaged parts of images so that your neural net
-    doesn't learn useless information. Pixel values greater than zero are on. That is to say, white is on, black is off. The same file types are supported as for regular images.
-
-[sampleN] options
-`````````````````
-
-Declaration of binding between images and labels. You'll use the sample number in your training configuration to decide which image sets to train on.
-
-Required:
-
-1. ``input``: (int > 0) should correspond to the N in an [imageN]. e.g. ``input: 1`` 
-2. ``output``: (int > 0) should correspond to the N in a [labelN]. e.g. ``output: 1``
-
+    output = 1
+    
+    [image2]
+    fnames = ../dataset/ISBI2012/test-volume.tif
+    pp_types = standard2D
+    is_auto_crop = yes
+    
+    [sample2]
+    input = 2
 
 2. Network Architecture Configuration
 -------------------------------------
