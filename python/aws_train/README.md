@@ -2,23 +2,17 @@ ZNN Training on AWS using Spot Instances
 =======================================
 This script can create a cluster including an on-demand master node and several spot-instance worker nodes. Whenever the spot instance node gets terminated by price, the script will create a new spot instance request. Thus the script creates a kind of "persistent" spot worker node.
 
-1. Setup
---------
-
-2. Dump
---------
-
 ##Setup
-* [install starcluster](http://star.mit.edu/cluster/docs/latest/installation.html). `easy_install StarCluster`
-* download [StarCluster](https://github.com/jtriley/StarCluster) and set the StarCluster folder as a PYTHONPATH.
-  * ``git clone https://github.com/jtriley/StarCluster.git``
-  * put this line `export PYTHONPATH=$PYTHONPATH:"/path/to/StarCluster"` to the end of `~/.bashrc` file.
-  * run `source ~/.bashrc`
-  * you may need to create a new terminal (make the .bashrc file be effective)
-* edit and move `config` file to `~/.starcluster/`.
-  * setup the keys in `config`.
-  * set the AMI and volume id.
-  * setup all the parameters with a mark of `XXX`
+* [Install StarCluster](http://star.mit.edu/cluster/docs/latest/installation.html). `sudo easy_install StarCluster`
+* [Download StarCluster](https://github.com/jtriley/StarCluster) and set the StarCluster folder path on your machine as the PYTHONPATH.
+  * Type ``git clone https://github.com/jtriley/StarCluster.git``
+  * Put the line `export PYTHONPATH=$PYTHONPATH:"/path/to/StarCluster"` at the end of `~/.bashrc` file on Linux or at the end of `~/.bash_profile` file on Mac OS.
+  * Run `source ~/.bashrc` if using Linux.
+  * Exit all terminals. Create a new terminal.
+* Edit and move `config` file to `~/.starcluster/`.
+  * Setup the keys in `config`.
+  * Set the AMI and volume id.
+  * Setup all the parameters with a mark of `XXX`
 * copy the `train_example.cfg` file as `train.cfg`
 * set some additional parameters in the `train.cfg`.
     * cluster name
@@ -37,15 +31,11 @@ now, you are almost ready.
 * set the `node_name` in script to choose the command you want to run. (normally, we use network name as node name)
 * modify the command dict to execute training commands after the node was launched. the `node_name` is the key of command dict.
 
-# compile and run
-for the first time, you'd better update the code and compile
+# run
 * run the main script: `python aws_train.py mynode`, `mynode` is the node name
 * use `starcluster sshnode mycluster mynode` to login your node. 
 * go to the persistent volume: `cd /home`
-* clone the latest znn code: `git clone https://github.com/seung-lab/znn-release.git`
-* compile the python core: `cd znn-release/python/core`; `make mkl -j 32`. all the libraries should be available.
 * start training and have fun!
-once setup, you don't need to compile it anymore.
 
 ##Usage
 * Check your cluster: `starcluster listclusters`
