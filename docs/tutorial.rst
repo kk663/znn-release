@@ -391,7 +391,8 @@ Sometimes, we would like to utilize a trained network. If the network architectu
     python train.py -c path/of/config.cfg -s path/of/seed.h5
 
 Forward Pass using the N4 network
----------------------------------
+`````````````````````````````````
+
 run the following command:
 ::
     python forward.py -c path/of/config.cfg
