@@ -399,11 +399,8 @@ if you are running forward pass intensively for a large image stack, it is recom
 
 NOTE: If your forward pass aborts without writing anything, try reducing the output size, as you may have run out of memory.
 
-4. Appendix
------------
-
-Specification File Format
-`````````````````````````
+4. Specification File Format
+----------------------------
 
 The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment. A binding of inputs to outputs is called a sample.
 
@@ -484,8 +481,8 @@ Required:
 1. ``input``: (int > 0) should correspond to the N in an [imageN]. e.g. ``input: 1`` 
 2. ``output``: (int > 0) should correspond to the N in a [labelN]. e.g. ``output: 1``
 
-ZNN File Format
-```````````````
+5. ZNN File Format
+------------------
 
 ``nodes`` type declaration
 ``````````````````````````
@@ -539,13 +536,10 @@ Note: In the Description column for functions, the relevant init_args are presen
 
 [2] He, Zhang, Ren and Sun. "Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification" CVPR 2015. http://arxiv.org/abs/1502.01852
  
-For more examples, please refer to the `networks <https://github.com/seung-lab/znn-release/tree/master/networks>`_ directory.
+For more examples, please refer to the folder ``/opt/znn-release/networks``.
 
-Configuration File Format
-```````````````````````
-
-The configuration file uses the commonly used `Python ConfigParser <https://docs.python.org/2/library/configparser.html>`_. Consult that link for detailed information on acceptable syntax.
-The ``.cfg`` file uses ``[sections]`` to ecapsulate different parameter sets. In the past, we used to use multiple sections, but now we just use one called ``[parameters]``.
+6. Configuration File Format
+----------------------------
 
 ============================ ========================= ================================================================
  Property                     Options                   Description                                                    
@@ -604,7 +598,6 @@ The ``.cfg`` file uses ``[sections]`` to ecapsulate different parameter sets. In
 -----------
 - Publicly available ZNN AWS AMI
 - Describe all the code in plain English using comments
-- Add in tables etc in appendix
 - Do we want to add in AWS tutorial too (see http://cs224d.stanford.edu/supplementary/aws-tutorial-2.pdf)?
 - State which instance type to use
 - Be clearer about output size parameter and effect on memory
