@@ -8,7 +8,8 @@ This script can create a cluster including an on-demand master node and several 
 2. Dump
 --------
 
-##Setup
+Setup
+`````
 
 * [install starcluster](http://star.mit.edu/cluster/docs/latest/installation.html). `easy_install StarCluster`
 * download [StarCluster](https://github.com/jtriley/StarCluster) and set the StarCluster folder as a PYTHONPATH.
@@ -28,7 +29,8 @@ This script can create a cluster including an on-demand master node and several 
     * biding for the spot instance
     * commands for each spot instance
 
-##Tutorial
+Tutorial
+```````
 now, you are almost ready. 
 * create a volume using starcluster (it won't work for volume created in web console!): `starcluster createvolume 50 us-east-1c`, you can get a volume ID from this step. This volume will be your persistent storage for all the training files.
 * check your cluster: `starcluster listclusters`
@@ -48,7 +50,8 @@ for the first time, you'd better update the code and compile
 * start training and have fun!
 once setup, you don't need to compile it anymore.
 
-## Usage
+Usage
+````
 * Check your cluster: `starcluster listclusters`
 * ssh: `starcluster sshmaster mycluster`
 * upload: `starcluster put mycluster myfile clusterfile`
