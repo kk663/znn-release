@@ -3,11 +3,14 @@ ZNN Training on AWS using Spot Instances
 This script can create a cluster including an on-demand master node and several spot-instance worker nodes. Whenever the spot instance node gets terminated by price, the script will create a new spot instance request. Thus the script creates a kind of "persistent" spot worker node.
 
 ##Setup
-* [Install StarCluster](http://star.mit.edu/cluster/docs/latest/installation.html). `sudo easy_install StarCluster`
+* [Install StarCluster](http://star.mit.edu/cluster/docs/latest/installation.html). `sudo easy_install StarCluster`. If using Mac OS, you will need to install Homebrew and then use it to install OpenSSL.
+  * Enter ``/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`` in terminal to install Homebrew (Mac OS only)
+  * Enter ``brew install openssl`` in terminal to install OpenSSL (Mac OS only)
+  * Enter ``brew link openssl --force`` in terminal to sym-link OpenSSL (Mac OS only)
 * [Download StarCluster](https://github.com/jtriley/StarCluster) and set the StarCluster folder path on your machine as the PYTHONPATH.
-  * Type ``git clone https://github.com/jtriley/StarCluster.git``
+  * Enter ``git clone https://github.com/jtriley/StarCluster.git`` in terminal
   * Put the line `export PYTHONPATH=$PYTHONPATH:"/path/to/StarCluster"` at the end of `~/.bashrc` file on Linux or at the end of `~/.bash_profile` file on Mac OS.
-  * Run `source ~/.bashrc` if using Linux.
+  * Run `source ~/.bashrc` in terminal if using Linux.
   * Exit all terminals. Create a new terminal.
 * Edit and move `config` file to `~/.starcluster/`.
   * Setup the keys in `config`.
