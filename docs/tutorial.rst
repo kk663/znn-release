@@ -374,7 +374,7 @@ After setting up the configuration file, you can now train your network. You nee
 
 Make sure you run the following command from within the `/opt/znn-release/python` directory. This is a limitation that can be fixed in future releases.
 ::
-    python train.py -c path/of/config.cfg 
+    python train.py -c config.cfg 
 
 Resume training the N4 network
 ``````````````````````````````
@@ -382,20 +382,19 @@ Since the network is periodically saved, we can resume training whenever we want
 
 To resume training a specific network, we can use the seeding function:
 ::
-    python train.py -c path/of/config.cfg -s path/of/seed.h5
+    python train.py -c config.cfg -s path/of/seed.h5
 
 Transfer learning using the N4 network
 ``````````````````````````````````````
 Sometimes, we would like to utilize a trained network. If the network architectures of trained and initialized network are the same, we call it ``Loading``. Otherwise, we call it ``Seeding``, in which case the trained net is used as a seed to initialize part of the new network. Our implementation merges ``Loading`` and ``Seeding``. Just use the synonymous ``-s`` or ``--seed`` command line flags. 
 ::
-    python train.py -c path/of/config.cfg -s path/of/seed.h5
+    python train.py -c config.cfg -s path/of/seed.h5
 
 Forward Pass using the N4 network
 `````````````````````````````````
-
 run the following command:
 ::
-    python forward.py -c path/of/config.cfg
+    python forward.py -c config.cfg
 if you are running forward pass intensively for a large image stack, it is recommanded to recompile python core using `DZNN_DONT_CACHE_FFTS`. Without caching FFTS, you can use a large output size, which reuse a lot of computation and speed up your forward pass.
 
 NOTE: If your forward pass aborts without writing anything, try reducing the output size, as you may have run out of memory.
@@ -595,7 +594,7 @@ For more examples, please refer to the folder ``/opt/znn-release/networks``.
 
 [1] Turaga, Briggmann, et al. "Maximin affinity learning of image segmentation". NIPS 2009. http://papers.nips.cc/paper/3887-maximin-affinity-learning-of-image-segmentation
 
-5. TO DO
+7. TO DO
 -----------
 - Publicly available ZNN AWS AMI
 - Describe all the code in plain English using comments
