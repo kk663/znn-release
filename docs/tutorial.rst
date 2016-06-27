@@ -38,6 +38,7 @@ The image pairs are defined as a **Sample**.
 
 The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment. A binding of inputs to outputs is called a sample.
 
+The following code can be found in the ``dataset.spec`` file provided with the ISBI 2012 dataset (see folder ``/opt/znn-release/dataset/ISBI2012``):
 ::
     # samples example
     # the [image] sections indicate the network inputs
