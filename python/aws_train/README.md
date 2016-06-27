@@ -4,9 +4,9 @@ This script can create a cluster including an on-demand master node and several 
 
 ##Setup
 * [Install StarCluster](http://star.mit.edu/cluster/docs/latest/installation.html). `sudo easy_install StarCluster`. If using Mac OS, you will need to install Homebrew and then use it to install OpenSSL.
-  * Enter ``/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`` in terminal to install Homebrew (Mac OS only)
-  * Enter ``brew install openssl`` in terminal to install OpenSSL (Mac OS only)
-  * Enter ``brew link openssl --force`` in terminal to sym-link OpenSSL (Mac OS only)
+  * Enter ``/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`` in terminal to install Homebrew (Mac OS only).
+  * Enter ``brew install openssl`` in terminal to install OpenSSL (Mac OS only).
+  * Enter ``brew link openssl --force`` in terminal to sym-link OpenSSL (Mac OS only).
 * [Download StarCluster](https://github.com/jtriley/StarCluster) and set the StarCluster folder path on your machine as the PYTHONPATH.
   * Enter ``git clone https://github.com/jtriley/StarCluster.git`` in terminal
   * Put the line `export PYTHONPATH=$PYTHONPATH:"/path/to/StarCluster"` at the end of `~/.bashrc` file on Linux or at the end of `~/.bash_profile` file on Mac OS.
