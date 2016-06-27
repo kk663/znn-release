@@ -112,14 +112,12 @@ We have a custom file format ``.znn`` for specifying the layout of your neural n
 5. The type of the edges determines if the layers its connecting is a one-to-one mapping or is fully connected. For example, a convolution type will result in fully connected layers.
 6. The output layer represents whatever you're training the network to do. One common output is the predicted labels for an image stack as a single node.
 
-You can find example network N4 `here <https://github.com/seung-lab/znn-release/blob/master/networks/N4.znn>`_.
-
-Here's an example excepted from the N4 network:
+The following code is present in ``N4.znn``, which can be found in folder ``/opt/znn-release/networks``:
 ::
     nodes input
     type input
     size 1
-
+    
     edges conv1
     type conv
     init xavier
@@ -127,25 +125,108 @@ Here's an example excepted from the N4 network:
     stride 1,1,1
     input input
     output nconv1
-
+    
     nodes nconv1
     type transfer
     function rectify_linear
     size 48
-
+    
     edges pool1
     type max_filter
     size 1,2,2
     stride 1,2,2
     input nconv1
     output npool1
-
+    
     nodes npool1
     type sum
     size 48
-
-    ....
-
+    
+    edges conv2
+    type conv
+    init xavier
+    size 1,5,5
+    stride 1,1,1
+    input npool1
+    output nconv2
+    
+    nodes nconv2
+    type transfer
+    function rectify_linear
+    size 48
+    
+    edges pool2
+    type max_filter
+    size 1,2,2
+    stride 1,2,2
+    input nconv2
+    output npool2
+    
+    nodes npool2
+    type sum
+    size 48
+    
+    edges conv3
+    type conv
+    init xavier
+    size 1,4,4
+    stride 1,1,1
+    input npool2
+    output nconv3
+    
+    nodes nconv3
+    type transfer
+    function rectify_linear
+    size 48
+    
+    edges pool3
+    type max_filter
+    size 1,2,2
+    stride 1,2,2
+    input nconv3
+    output npool3
+    
+    nodes npool3
+    type sum
+    size 48
+    
+    edges conv4
+    type conv
+    init xavier
+    size 1,4,4
+    stride 1,1,1
+    input npool3
+    output nconv4
+    
+    nodes nconv4
+    type transfer
+    function rectify_linear
+    size 48
+    
+    edges pool4
+    type max_filter
+    size 1,2,2
+    stride 1,2,2
+    input nconv4
+    output npool4
+    
+    nodes npool4
+    type sum
+    size 48
+    
+    edges conv5
+    type conv
+    init xavier
+    size 1,3,3
+    stride 1,1,1
+    input npool4
+    output nconv5
+    
+    nodes nconv5
+    type transfer
+    function rectify_linear
+    size 200
+    
     edges conv6
     type conv
     init xavier
@@ -153,12 +234,11 @@ Here's an example excepted from the N4 network:
     stride 1,1,1
     input nconv5
     output output
-
+    
     nodes output
     type transfer
     function linear
     size 2
-
 
 The ``.znn`` file is comprised of two primary objects -- nodes and edges. An object declaration consists of the type ``nodes`` or ``edges`` followed by its name on a new line followed by its parameters.
 
