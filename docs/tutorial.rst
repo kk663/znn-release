@@ -3,7 +3,7 @@ ZNN + AWS Tutorial
 
 The tutorial will help you learn how to use the ZNN AWS AMI by training a CNN to perform boundary detection on the ISBI 2012 dataset. In particular, the tutorial will focus on the training of the N4 network described in the paper `"Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" <https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images>`_.
 
-Since the python interface is more convenient to use, this tutorial only focuses on it.
+The tutorial focuses on usage of the python interface since it is more convenient to use.
 
 1. Dataset Preparation
 ----------------------
@@ -112,7 +112,7 @@ We have a custom file format ``.znn`` for specifying the layout of your neural n
 5. The type of the edges determines if the layers its connecting is a one-to-one mapping or is fully connected. For example, a convolution type will result in fully connected layers.
 6. The output layer represents whatever you're training the network to do. One common output is the predicted labels for an image stack as a single node.
 
-The following code is present in ``N4.znn``, which can be found in folder ``/opt/znn-release/networks``:
+The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
 ::
     nodes input
     type input
@@ -250,10 +250,124 @@ it's time to tell the network exactly what to do. We do this via a ``.cfg`` conf
 
 Parameter configuration
 ```````````````````````
-The training and forward parameters of the network can be set using a configuration file (`example <https://raw.githubusercontent.com/seung-lab/znn-release/abd05db3a97db1e39e437927746508357665bdde/python/config.cfg>`_). 
+The training and forward parameters of the network can be set using a configuration file. 
 
 The configuration file uses the commonly used `Python ConfigParser <https://docs.python.org/2/library/configparser.html>`_. Consult that link for detailed information on acceptable syntax.
 The ``.cfg`` file uses ``[sections]`` to ecapsulate different parameter sets. In the past, we used to use multiple sections, but now we just use one called ``[parameters]``.
+
+The following code is present in ``config.cfg`` which can be found in folder ``/opt/znn-release/python``:
+::
+    [parameters]
+    # general
+    # specification file of network architecture
+    fnet_spec = ../networks/N4.znn
+    # file of data spec
+    fdata_spec = ../dataset/test/dataset.spec
+    # number of threads. if <=0, the thread number will be equal to
+    # the number of concurrent threads supported by the implementation.
+    num_threads = 0
+    # data type of arrays: float32 or float64
+    dtype = float32
+    # type of network output: boundary or affinity
+    out_type = boundary
+    # Whether to record config and log files
+    logging = no
+    
+    # train
+    # saved network file name. will automatically add iteration number
+    # saved file name example: net_21000.h5, net_current.h5
+    # the net_current.h5 will always be the latest network
+    train_net_prefix = ../experiments/piriform/N4/net
+    # sample ID range for train
+    # example: 2-3,7
+    train_range = 2
+    # sample ID range for validate/test during training
+    # example: 1,4-6,8
+    test_range = 1
+    # dense output size of one forward pass: z,y,x
+    # large output size can reduce the computational redundency
+    # this parameter affects the memory consumption a lot.
+    # keep an eye to the memory, if it occupies too much memory, reduce this outsz
+    train_outsz = 1,100,100
+    
+    # mode: fft, direct, optimize
+    # if optimize, znn will choose direct convolution or fft for each layer.
+    # optimize will get the best performance, but it takes a few minutes at the beginning.
+    # it is suggested to use fft for fast testing and forward pass, and use optimize for long-time training
+    train_conv_mode = fft
+    
+    # cost function: square_loss, binomial_cross_entropy, softmax_loss, auto
+    # auto mode will match the out_type: boundary-softmax_loss, affinity-binomial_cross_entropy
+    cost_fn = auto
+    # use malis weighting of gradient
+    # Maximin affinity learning of image segmentation
+    # http://papers.nips.cc/paper/3887-maximin-affinity-learning-of-image-segmentation
+    # For normal training, you don't need this.
+    is_malis = no
+    # type of malis normalization:
+    # none: no normalization,
+    # frac: segment fractional normalization
+    # num : normalized by N (number of nonboundary voxels)
+    # pair: normalized by N*(N-1)
+    malis_norm_type = none
+    
+    # learning rate
+    eta = 0.01
+    # annealing factor
+    anneal_factor = 0.997
+    # number of iteration per learning rate annealing
+    Num_iter_per_annealing = 100
+    # momentum
+    momentum = 0.9
+    # weight decay
+    weight_decay = 0
+    
+    # randomly transform patches to enrich training data, including rotation, fliping
+    is_data_aug = yes
+    # mirror the image region close to boundaries to get a full size output
+    is_bd_mirror = yes
+    # balance the boundary and non-boundary voxel
+    # global: compute the weight in the whole image stack
+    # patch: compute the balance weight for each patch
+    rebalance_mode = global
+    
+    # standard IO format in Seunglab: https://docs.google.com/spreadsheets/d/1Frn-VH4VatqpwV96BTWSrtMQV0-9ej9soy6HXHgxWtc/edit?usp=sharing
+    # if yes, will save the learning curve and network in one file
+    # if no, will save them separatly. This will be backward compatable.
+    # For new training, it is recommanded to use stdio
+    is_stdio = yes
+    # debug mode: yes, no
+    # if yes, will output some internal information and save patches in network file.
+    is_debug = no
+    # check the patches, used in Travis-ci for automatic test
+    is_check = no
+    
+    # number of iteration per output
+    Num_iter_per_show = 100
+    # number of iteration per validation/test during training
+    Num_iter_per_test = 200
+    # number of patches to run forward pass for validation/test
+    # the larger the smoother of learning curve, but the slower the training
+    test_num = 10
+    # number of iteration per save
+    Num_iter_per_save = 1000
+    # maximum iteration
+    Max_iter = 200000
+    
+    # forward
+    # sample ID for forward pass, example: 2-3,8
+    forward_range = 1
+    # forward network
+    forward_net = ../experiments/piriform/N4/net_current.h5
+    # forward convolution mode: fft, direct, optimize
+    # since optimization takes a long time, normally just use fft
+    forward_conv_mode = fft
+    # output size of one forward pass: z,y,x
+    # the larger the faster, limited by the memory capacity.
+    forward_outsz = 5,100,100
+    # output file name prefix
+    output_prefix = ../experiments/piriform/N4/out
+    
 
 Run a training
 ``````````````
@@ -285,3 +399,13 @@ run the following command:
 if you are running forward pass intensively for a large image stack, it is recommanded to recompile python core using `DZNN_DONT_CACHE_FFTS`. Without caching FFTS, you can use a large output size, which reuse a lot of computation and speed up your forward pass.
 
 NOTE: If your forward pass aborts without writing anything, try reducing the output size, as you may have run out of memory.
+
+4. TO DO
+-----------
+- Publicly available ZNN AWS AMI
+- Describe all the code in plain English using comments
+- Add in tables etc in appendix
+- State that need to do ``sudo su`` before training
+- Do we want to add in AWS tutorial too?
+- State which instance type to use
+- Be clearer about output size parameter and effect on memory
