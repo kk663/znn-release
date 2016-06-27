@@ -1,18 +1,16 @@
-Tutorial
+AWS Tutorial
 ========
 
-Now that you have ZNN set up in an environment you want to use, let's set up an experiment.
+This tutorial will help you learn how to use the ZNN AWS AMI by training a CNN to perform boundary detection on the ISBI 2012 dataset. In particular, the tutorial will focus on the training of the N4 network described in the paper "Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" (https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images).
 
 Since the python interface is more convenient to use, this tutorial only focuses on it.
 
-1. Importing Experimental Images
------------------------------
-
-Create a directory called "experiments" in the ZNN root directory. Copy your images to the directory. You'll want to keep track of which images are your source images and which are your ground truth. Make sure you create a training set and a validation set so that you can ensure your training results are meaningful. If you only have one set of images, split them down the middle.
+1. Dataset Preparation
+----------------------
 
 Image format
 ````````````
-The dataset is simply a 3D ``tif`` or ``h5`` image stack. 
+ZNN accepts datasets that consist of 3D ``tif`` or ``h5`` image stacks.
 
 ============== ================= ===========
 type            format            bit depth
