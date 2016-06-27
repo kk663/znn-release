@@ -2,6 +2,9 @@ ZNN Training on AWS using Spot Instances
 =======================================
 This script can create a cluster including an on-demand master node and several spot-instance worker nodes. Whenever the spot instance node gets terminated by price, the script will create a new spot instance request. Thus the script creates a kind of "persistent" spot worker node.
 
+1. FINISHED
+----------
+
 ##Setup
 * [Install StarCluster](http://star.mit.edu/cluster/docs/latest/installation.html). `sudo easy_install StarCluster`. If using Mac OS, you will need to install Homebrew and then use it to install OpenSSL.
   * Enter ``/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"`` in terminal to install Homebrew (Mac OS only).
@@ -21,12 +24,15 @@ This script can create a cluster including an on-demand master node and several 
 * Copy the `train_example.cfg` file as `train.cfg`
 * Set some additional parameters in the `train.cfg`.
     * Cluster name
-    * Node name (Note that do not use `_`!)
+    * Node name (Do not use `_` in the name)
     * Instance type
     * Bidding for the spot instance
     * Commands for each spot instance
-* Create a volume using starcluster (it won't work for volume created in web console!): enter `starcluster createvolume 50 us-east-1c` into a terminal. This will create an EBS volume of size 50 GB on AWS EC2 in availability `region us-east-1c`. You can get a volume ID from this step (see the AWS EC2 console to get the volume ID). This volume will be your persistent storage for all the training files.
+* Create a volume using starcluster (it won't work for volume created in web console!): enter `starcluster createvolume 50 us-east-1c` into a terminal. This will create an EBS volume of size 50 GB on AWS EC2 in availability region `us-east-1c`. You can get a volume ID from this step (see the AWS EC2 console to get the volume ID). This volume will be your persistent storage for all the training files.
 * Edit the `config` file in `~/.starcluster/` so that `VOLUME_ID` is set to the volume ID assigned in the previous step
+
+2. HORRIBLE INSTRUCTIONS THAT NEED TO BE CHANGED
+---------------------------------------------
 
 ##Tutorial
 * Create a volume using starcluster (it won't work for volume created in web console!): `starcluster createvolume 50 us-east-1c`, you can get a volume ID from this step. This volume will be your persistent storage for all the training files.
@@ -38,14 +44,13 @@ This script can create a cluster including an on-demand master node and several 
 * Modify the command dict to execute training commands after the node was launched. the `node_name` is the key of command dict.
 
 ##Run
-* run the main script: `python aws_train.py mynode`, `mynode` is the node name
-* use `starcluster sshnode mycluster mynode` to login your node. 
-* go to the persistent volume: `cd /home`
-* start training and have fun!
+* Run the main script on your local computer. Enter `python aws_train.py mynode` in the terminal where `mynode` is the node name. This command will keep running in your terminal until training is complete. Please do not terminate this command or shut down your computer during training. Your computer needs to be running during training.
+* Open a new terminal. Enter `starcluster sshnode mycluster mynode` in this terminal to login to your node (i.e. ssh to your main AWS EC2 instance). You can now see what your main instance is doing.
+* Go to the persistent volume. Enter `cd /home` in the ssh terminal to go to the persistent volume assigned to your main AWS EC2 instance. You can now see what is being stored by your main instance.
 
 ##Usage
 * Check your cluster: `starcluster listclusters`
 * ssh: `starcluster sshmaster mycluster`
-* upload: `starcluster put mycluster myfile clusterfile`
-* download: `starcluster get mycluster clusterfile myfile`
-* get help: `starcluster help`
+* Upload: `starcluster put mycluster myfile clusterfile`
+* Download: `starcluster get mycluster clusterfile myfile`
+* Get help: `starcluster help`
