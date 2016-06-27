@@ -22,9 +22,10 @@ label image     .tif              32 or RGB
 * For training, you should prepare pairs of ``.tif`` files, one is a stack of raw images, the other is a stack of labeled images. A label is defined as a unique RGBA color.
 * For forward pass, only the raw image stack is needed.
 
-The ISBI 2012 challenge dataset is already provided in the AMI. It can be found in the following folder ``/opt/znn-release/dataset/ISBI2012``. 
+The ISBI 2012 challenge dataset is already provided in the AMI. It can be found in the following folder: ``/opt/znn-release/dataset/ISBI2012``. 
 
 For further information about the ISBI 2012 dataset, please see the websites below:
+
 * http://brainiac2.mit.edu/isbi_challenge/home
 * http://journal.frontiersin.org/article/10.3389/fnana.2015.00142/full
 
@@ -33,7 +34,7 @@ Image configuration
 
 ZNN requires a ``.spec`` file that provides the binding between the raw images and the labelled images (i.e. ground truth) in the dataset.
 
-The image pairs are defined as a **Sample**. Start with this `example <https://github.com/seung-lab/znn-release/blob/master/dataset/ISBI2012/dataset.spec>`_ and customize it to suit your needs. 
+The image pairs are defined as a **Sample**.
 
 The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment. A binding of inputs to outputs is called a sample.
 
