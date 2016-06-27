@@ -1,7 +1,7 @@
-AWS Tutorial
-========
+ZNN + AWS Tutorial
+==================
 
-This tutorial will help you learn how to use the ZNN AWS AMI by training a CNN to perform boundary detection on the ISBI 2012 dataset. In particular, the tutorial will focus on the training of the N4 network described in the paper "Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" (https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images).
+The tutorial will help you learn how to use the ZNN AWS AMI by training a CNN to perform boundary detection on the ISBI 2012 dataset. In particular, the tutorial will focus on the training of the N4 network described in the paper `"Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" <https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images>`.
 
 Since the python interface is more convenient to use, this tutorial only focuses on it.
 
