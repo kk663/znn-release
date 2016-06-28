@@ -13,7 +13,7 @@ This script can create a cluster including an on-demand master node and several 
 * [Download StarCluster](https://github.com/jtriley/StarCluster) and set the StarCluster folder path on your machine as the PYTHONPATH.
   * Enter ``git clone https://github.com/jtriley/StarCluster.git`` in terminal
   * Put the line `export PYTHONPATH=$PYTHONPATH:"/path/to/StarCluster"` at the end of `~/.bashrc` file on Linux or at the end of `~/.bash_profile` file on Mac OS.
-  * Run `source ~/.bashrc` in terminal if using Linux.
+  * Run `source ~/.bashrc` in terminal if using Linux or run `source ~/.bash_profile` in terminal if using Mac OS.
   * Exit all terminals. Create a new terminal.
 * Edit and move `config` file to `~/.starcluster/`.
   * Setup the keys in `config`. Please see [AWS Crediential Tutorial](http://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSGettingStartedGuide/AWSCredentials.html) for information on how to set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`.
