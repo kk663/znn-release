@@ -5,6 +5,8 @@ The tutorial will help you learn how to use the ZNN AWS AMI by training a CNN to
 
 The tutorial focuses on usage of the python interface since it is more convenient to use.
 
+The tutorial assumes that you are already familiar with how to use AWS. Please contact `William Wong <william.wong@princeton.edu>`_ to get an AWS account or share the ZNN AMI with your account. The ZNN AMI is not currently publicly available.
+
 1. Dataset Preparation
 ----------------------
 
