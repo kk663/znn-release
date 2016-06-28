@@ -16,6 +16,7 @@ Contents:
    introduction
    install
    tutorial
+   reference
 
 
 Indices and tables
