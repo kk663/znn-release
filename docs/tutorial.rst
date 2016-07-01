@@ -33,11 +33,53 @@ Image configuration
 
 ZNN requires a ``.spec`` file that provides the binding between the raw image stacks and the labelled image stacks (i.e. ground truth) in the dataset.
 
-The raw image stack and the corresponding labelled image stack are defined as a **Sample**. A binding of inputs to outputs is called a sample.
+The raw image stack and the corresponding labelled image stack are defined as a **Sample**.
 
 The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment (you can have multiple input stacks for both training and forward-pass/inference).
 
-The following code can be found in the ``dataset.spec`` file in the folder ``/opt/znn-release/dataset/test``:
+Recall that we have two image stacks: stack1 and stack2. Let's define the raw image stacks as inputs in the ``.spec`` file:
+::
+    [image1]
+    fnames = ../dataset/test/stack1-image.tif
+    pp_types = standard2D
+    is_auto_crop = yes
+    
+    [image2]
+    fnames = ../dataset/test/stack2-image.tif
+    pp_types = standard2D
+    is_auto_crop = yes
+
+We must use [image] sections to indicate the network inputs. For raw image stack1, we must first include the [image1] header. Note that the number in the header at the end can be any positive integer. It does not have to be 1. Next, we must specify the full path of raw image stack in the field ``fnames``. The ``pp_types`` or preprocessing types field does not need to be set. It is none by default. We set it to be standard2D so that we subtract the mean and divide by the standard deviation of the pixel values for each 2D image in the raw image stack. The field ``is_auto_crop`` is set to no by default. We set the ``is_auto_crop`` field to yes so if the raw image is of different size than the groundtruth image, the smaller image is centered in the larger image and the larger image is cropped around the smaller image.
+
+Now let's define the labelled image stacks as outputs in the ``.spec`` file:
+::
+    [label1]
+    fnames = ../dataset/test/stack1-label.tif
+    pp_types = binary_class
+    is_auto_crop = yes
+    fmasks =
+    
+    [label2]
+    fnames = ../dataset/test/stack2-label.tif
+    pp_types = binary_class
+    is_auto_crop = yes
+    fmasks =
+
+BLAH BLAH
+
+Next, let's define the bindings of raw image stacks and the corresponding labelled image stacks in the ``.spec`` file:
+::
+     [sample1]
+    input = 1
+    output = 1
+    
+    [sample2]
+    input = 2
+    output = 2
+
+BLAH BLAH
+
+The full code can be found in the ``dataset.spec`` file in the folder ``/opt/znn-release/dataset/test`` and is as follows:
 ::
     # samples example
     # the [image] sections indicate the network inputs
