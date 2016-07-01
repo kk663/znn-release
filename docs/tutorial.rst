@@ -155,6 +155,26 @@ We have a custom file format ``.znn`` for specifying the layout of your neural n
 5. The type of the edges determines if the layers connected have a one-to-one mapping or are fully connected. For example, a convolution type will result in fully connected layers.
 6. The output layer represents whatever you are training the network to do. One common output is the predicted labels for an image stack as a single node.
 
+We shall now define the network architecture of the N4 net. Let's start with defining the input layer:
+::
+    nodes input
+    type input
+    size 1 
+
+The command ``nodes layer-name`` is used to declare a layer with name ``layer-name``. First, we declare that the layer is the input layer using the command ``nodes input``. Note that the ``layer-name`` of ``input`` is special and is reserved for the input layer. Then we specify that the layer is of ``type input``. Next, the command ``size 1`` indicates that there is only one feature map in the input layer (the input stacks contain 2D grayscale images so there is only one image channel).
+
+We would like the next layer to be a convolutional layer. We must define the edges between the input layer and the next layer before defining the next layer:
+::
+    edges conv1
+    type conv
+    init xavier
+    size 1,4,4
+    stride 1,1,1
+    input input
+    output nconv1
+
+BLAH BLAH
+
 The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
 ::
     nodes input
