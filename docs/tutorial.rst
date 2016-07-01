@@ -446,7 +446,7 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 -----------
 - Publicly available ZNN AWS AMI (would be nice if segascorus came pre-installed and runs out-of-the-box and all the training specification/configuration files match those given above - some changes have been made to tutorial code)
 - Describe all the code in plain English using comments. Right now, need to do this for ``.znn`` and ``.cfg`` files.
-- State which instance type to use and what EBS storage size to use.
+- State which instance type to use and what EBS storage size to use. Tell people how many iterations to run or hours to wait or just set the maximum number of iterations in the config.cfg file.
 - Be clearer about output size parameter and effect on memory. Find largest possible output size that works on suggested instance type
 - Talk about practical details of how to train using ZNN (need to monitor training and manually halt it when overfitting detected - otherwise training goes on until max number of iterations is reached). Talk about what update = iteration means and how ZNN does gradient descent. Recommend train patch sizes for 2D and 3D deep learning. Talk about outputs (trained neural net files) given by training.
 - Talk about practical details of how to use ZNN to perform forward-pass/inference. This can be done using config.cfg file. Talk about what the forward-pass output is and how to interpret it. Give instructions for downloading and running segascorus to produce error metrics after forward-pass.
