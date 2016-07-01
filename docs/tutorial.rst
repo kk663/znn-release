@@ -69,7 +69,7 @@ BLAH BLAH
 
 Next, let's define the bindings of raw image stacks and the corresponding labelled image stacks in the ``.spec`` file:
 ::
-     [sample1]
+    [sample1]
     input = 1
     output = 1
     
