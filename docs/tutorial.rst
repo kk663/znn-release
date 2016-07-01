@@ -1,7 +1,7 @@
 ZNN + AWS Tutorial
 ==================
 
-The tutorial will help you learn how to use the ZNN AWS (Amazon Web Services) AMI (Amazon Machine Image) by training a CNN to perform boundary detection. In particular, the tutorial will focus on the training of the N4 network described in the paper `"Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" <https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images>`_.
+The tutorial will help you learn how to use ZNN with the help of AWS (Amazon Web Services). We have an AMI (Amazon Machine Image) with ZNN pre-installed so that you can just launch an AWS EC2 (Elastic Compute Cloud) instance using the AMI and run the tutorial on the instance (no need to deal with installation issues). The goal of the tutorial is to train a 2D sliding-window CNN (Convolutional Neural Network) to perform boundary detection. In particular, the tutorial will focus on the training of the N4 network described in the paper `"Deep Neural Networks Segment Neuronal Membranes in Electron Microscopy Images" <https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images>`_.
 
 The tutorial focuses on usage of the python interface since it is more convenient to use.
 
