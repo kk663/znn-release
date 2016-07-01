@@ -49,9 +49,9 @@ Recall that we have two image stacks: stack1 and stack2. Let's define the raw im
     pp_types = standard2D
     is_auto_crop = yes
 
-We must use [image] sections to indicate the network inputs. For raw image stack1, we must first include the [image1] header. Note that the number in the header at the end can be any positive integer. It does not have to be 1. Next, we must specify the full path of raw image stack in the field ``fnames``. The ``pp_types`` or preprocessing types field does not need to be set. It is none by default. We set it to be standard2D so that we subtract the mean and divide by the standard deviation of the pixel values for each 2D image in the raw image stack. The field ``is_auto_crop`` is set to no by default. We set the ``is_auto_crop`` field to yes so if the raw image is of different size than the groundtruth image, the smaller image is centered in the larger image and the larger image is cropped around the smaller image.
+We must use ``[image]`` sections to indicate the network inputs. For stack1, we must first include the ``[image1]`` header. Note that the number in the header at the end can be any positive integer. It does not have to be 1. Next, we must specify the full file path of raw image stack in the field ``fnames``. The ``pp_types`` or preprocessing types field does not need to be set. It is ``none`` by default. We set it to be ``standard2D`` so that we subtract the mean and divide by the standard deviation of the pixel values for each 2D image in the raw image stack. The field ``is_auto_crop`` is set to ``no`` by default. We set the ``is_auto_crop`` field to ``yes`` so if the raw image is of different size than the ground truth image, the smaller image is centered in the larger image and the larger image is cropped around the smaller image. We then do the same thing (section header, full file path field, preprocessing types field and autocrop field) for stack2.
 
-Now let's define the labelled image stacks as outputs in the ``.spec`` file:
+Now let's define the labelled image stacks as ground truth outputs in the ``.spec`` file:
 ::
     [label1]
     fnames = ../dataset/test/stack1-label.tif
@@ -65,7 +65,7 @@ Now let's define the labelled image stacks as outputs in the ``.spec`` file:
     is_auto_crop = yes
     fmasks =
 
-BLAH BLAH
+We must use ``[label]`` sections to indicate the ground truth of network outputs. For stack1, we must first include the ``[label1]`` header. Note that the number in the header at the end can be any positive integer. It does not have to be 1. Next, we must specify the full file path of labelled image stack in the field ``fnames``. The ``pp_types`` or preprocessing types field does not need to be set. It is ``none`` by default. We set it to be ``binary_class`` so that we generate two 2D output images for each 2D input image. The first 2D output image is the original labelled 2D image and the second 2D output image is the inverted version of the original labelled 2D image. The field ``is_auto_crop`` is set to ``no`` by default. We set the ``is_auto_crop`` field to ``yes`` so if the raw image is of different size than the groundtruth image, the smaller image is centered in the larger image and the larger image is cropped around the smaller image. The ``fmasks`` field is for full file paths of masks: fmasks are used like cosmetics to coverup damaged parts of images so that your neural net doesn’t learn useless information. We have no damaged parts of the image in our dataset so we do not need to specify the full file paths of masks. We then do the same thing (section header, full file path field, preprocessing types field, autocrop field and full file path of masks field) for stack2.
 
 Next, let's define the bindings of raw image stacks and the corresponding labelled image stacks in the ``.spec`` file:
 ::
