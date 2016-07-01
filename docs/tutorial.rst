@@ -7,6 +7,8 @@ The tutorial focuses on usage of the python interface since it is more convenien
 
 The tutorial assumes that you are already familiar with how to use AWS. Please contact `William Wong <william.wong@princeton.edu>`_ to get an AWS account or share the ZNN AMI with your account. The ZNN AMI is not currently publicly available.
 
+The tutorial also assumes that you are somewhat familiar with neural networks and how to train them.
+
 1. Dataset Preparation
 ----------------------
 
@@ -29,11 +31,11 @@ The dataset is already provided in the AMI. It can be found in the folder ``/opt
 Image configuration
 ```````````````````
 
-ZNN requires a ``.spec`` file that provides the binding between the raw images and the labelled images (i.e. ground truth) in the dataset.
+ZNN requires a ``.spec`` file that provides the binding between the raw image stacks and the labelled image stacks (i.e. ground truth) in the dataset.
 
-The image pairs are defined as a **Sample**.
+The raw image stack and the corresponding labelled image stack are defined as a **Sample**. A binding of inputs to outputs is called a sample.
 
-The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment. A binding of inputs to outputs is called a sample.
+The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment (you can have multiple input stacks for both training and forward-pass/inference).
 
 The following code can be found in the ``dataset.spec`` file in the folder ``/opt/znn-release/dataset/test``:
 ::
@@ -79,16 +81,6 @@ The following code can be found in the ``dataset.spec`` file in the folder ``/op
     pp_types = standard2D
     is_auto_crop = yes
     
-    [image3]
-    fnames = ../dataset/test/stack3-image.tif
-    pp_types = standard2D
-    is_auto_crop = yes
-    
-    [image4]
-    fnames = ../dataset/test/stack4-image.tif
-    pp_types = standard2D
-    is_auto_crop = yes
-    
     [label1]
     fnames = ../dataset/test/stack1-label.tif
     pp_types = binary_class
@@ -101,18 +93,6 @@ The following code can be found in the ``dataset.spec`` file in the folder ``/op
     is_auto_crop = yes
     fmasks =
     
-    [label3]
-    fnames = ../dataset/test/stack3-label.tif
-    pp_types = binary_class
-    is_auto_crop = yes
-    fmasks =
-    
-    [label4]
-    fnames = ../dataset/test/stack4-label.tif
-    pp_types = binary_class
-    is_auto_crop = yes
-    fmasks =
-    
     [sample1]
     input = 1
     output = 1
@@ -120,14 +100,6 @@ The following code can be found in the ``dataset.spec`` file in the folder ``/op
     [sample2]
     input = 2
     output = 2
-    
-    [sample3]
-    input = 3
-    output = 3
-    
-    [sample4]
-    input = 4
-    output = 4
 
 
 2. Network Architecture Configuration
