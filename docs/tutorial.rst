@@ -148,12 +148,12 @@ The full code can be found in the ``dataset.spec`` file in the folder ``/opt/znn
 
 We have a custom file format ``.znn`` for specifying the layout of your neural network. It works based on a few simple concepts. 
 
-1. Each of the input nodes of the network represent an image stack.
+1. Each of the input nodes of the network represents an image stack.
 2. The network consists of layers whose size can be individually specified. 
-3. The edge betwen the layers specify not only the data transfer from one layer to another (e.g. one to one, or fully connected), they also prescribe a transformation, e.g. a filter or weight, to be applied. 
+3. The edges between the layers specify not only the data transfer from one layer to another (e.g. one to one or fully connected), they also prescribe a transformation (e.g. a filter or weight) to be applied. 
 4. After all the weights or filters have been applied, the inputs are summed and a pixel-wise transfer function (e.g. a `sigmoid <https://en.wikipedia.org/wiki/Sigmoid_function>`_ or `ReLU <https://en.wikipedia.org/wiki/Rectifier_(neural_networks)>`_) is applied.
-5. The type of the edges determines if the layers its connecting is a one-to-one mapping or is fully connected. For example, a convolution type will result in fully connected layers.
-6. The output layer represents whatever you're training the network to do. One common output is the predicted labels for an image stack as a single node.
+5. The type of the edges determines if the layers connected have a one-to-one mapping or are fully connected. For example, a convolution type will result in fully connected layers.
+6. The output layer represents whatever you are training the network to do. One common output is the predicted labels for an image stack as a single node.
 
 The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
 ::
