@@ -173,7 +173,16 @@ We would like the next layer to be a convolutional layer. We must define the edg
     input input
     output nconv1
 
-The command ``edges edges-name`` is used to declare edges with collective name ``edges-name``. First, we declare the edges with name ``conv1`` using the command ``edges conv1``. Then we specify that the layers are to be fully-connected and convolution is applied with command ``type conv``. The command ``init xavier`` specifies that the weights on the edges are to be initialized using `Xavier initialization <http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf>`_. 
+The command ``edges edges-name`` is used to declare edges with collective name ``edges-name``. First, we declare the edges with name ``conv1`` using the command ``edges conv1``. Then we specify that the layers are to be fully-connected and convolution is applied with command ``type conv``. The command ``init xavier`` specifies that the weights on the edges are to be initialized using `Xavier initialization <http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf>`_. The size of the convolutional kernel is ``4 x 4 x 1`` (x, y, z dimensions) with stride ``1`` in all dimensions. These is specified using the commands ``size 1,4,4`` and ``stride 1,1,1`` respectively. Next, we specify the input ``nodes`` layer or source layer (layer from which the edges originate) and the output ``nodes`` layer or destination layer (layer to which the edges travel) using the commands ``input input`` and ``output nconv1``. Observe that we used the layer-name we gave to the input layer (``input``) and we must declare the layer-name that we will give to the next layer (``nconv1``) in the edges section that precedes the declaration of the next layer.
+
+After defining the edges between the input layer and the next layer, we must now define the next layer:
+::
+    nodes nconv1
+    type transfer
+    function rectify_linear
+    size 48
+
+BLAH BLAH
 
 The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
 ::
