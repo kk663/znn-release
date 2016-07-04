@@ -173,7 +173,7 @@ We would like the next layer to be a convolutional layer. We must define the edg
     input input
     output nconv1
 
-BLAH BLAH
+The command ``edges edges-name`` is used to declare edges with collective name ``edges-name``. First, we declare the edges with name ``conv1`` using the command ``edges conv1``. Then we specify that the layers are to be fully-connected and convolution is applied with command ``type conv``. The command ``init xavier`` specifies that the weights on the edges are to be initialized using `Xavier initialization <http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf>`_. 
 
 The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
 ::
