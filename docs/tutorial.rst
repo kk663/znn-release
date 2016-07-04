@@ -182,6 +182,30 @@ After defining the edges between the input layer and the next layer, we must now
     function rectify_linear
     size 48
 
+The command ``nodes nconv1`` defines the name of the layer to be ``nconv1`` and this name must match the one used for the next layer in the preceding edge section. Then we specify that the layer is of type ``transfer`` using command ``type transfer``. This means that the layer will take the values stored in the input neurons (in the source layer of the edges object declared above) and compute a weighted sum at each output neuron (in the destination layer of the edges object declared above, which is this layer) using the weights on the edges. Finally, the layer will apply a transfer function such as sigmoid or ReLU to the weighted sum stored in each output neuron. Next, we specify the transfer function of the layer to be ``rectify_linear`` (this is the ReLU activation function) using the command ``function rectify_linear``. Finally, we must specify the number of nodes or feature maps in this layer (which must be a positive integer). We set the number of feature maps in this layer to be 48 using the command ``size 48``.
+
+We then wish to apply max-pooling to significantly increase the 2D receptive field of our network and make our network more invariant to minor translations:
+::
+    edges pool1
+    type max_filter
+    size 1,2,2
+    stride 1,2,2
+    input nconv1
+    output npool1
+    
+    nodes npool1
+    type sum
+    size 48
+
+BLAH BLAH
+
+We can then define the rest of the network using similar ``node`` and ``edge`` object declarations. Special attention must be paid to the declaration of the last layer of the network:
+::
+    nodes output
+    type transfer
+    function linear
+    size 2
+
 BLAH BLAH
 
 The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
@@ -312,7 +336,7 @@ The following code is present in ``N4.znn`` which can be found in folder ``/opt/
     function linear
     size 2
 
-The ``.znn`` file is comprised of two primary objects -- nodes and edges. An object declaration consists of the type ``nodes`` or ``edges`` followed by its name on a new line followed by its parameters.
+The ``.znn`` file is comprised of two primary objects -- nodes and edges. An object declaration consists of the type ``nodes`` or ``edges`` followed by its name on the same line and then followed by its parameters.
 
 3. Training
 -----------
