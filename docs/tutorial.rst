@@ -529,6 +529,7 @@ Step 8 - Enter the commands below to evaluate the performance of the neural netw
 ::
     cd /opt/znn-release
     git clone https://github.com/seung-lab/segascorus.git
+    cd segascorus
     make
     cd /opt/znn-release/python
     cp tiffile.py /opt/znn-release/segascorus
