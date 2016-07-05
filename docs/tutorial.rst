@@ -500,32 +500,41 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 4. Commands to run Tutorial
 ---------------------------
 
-1) Get ZNN AMI from William Wong
-2) Launch AWS EC2 instance of type ``c4.8xlarge`` (with 20-30 GB of storage) using ZNN AMI
-3) ssh into launched instance via the command line
-4) Enter the commands:
+Step 1 - Get ZNN AMI from William Wong
+
+Step 2 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 20-30 GB of storage) using ZNN AMI
+
+Step 3 - ssh into launched instance via the command line
+
+Step 4 - Enter the commands:
 ::
     sudo su
     cd /opt/znn-release/python
     screen
     python train.py -c config.cfg
 
-5) Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the following and you will be able to see how training is progressing:
-``sudo su``
-``cd /opt/znn-release/python``
-`'screen -r``
-6) Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
-7) We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model. Type:
-``cd /opt/znn-release/python``
-``python forward.py -c config.cfg``
-8) Enter the commands below to evaluate the performance of the neural network on the test stack:
-``cd /opt/znn-release``
-``git clone https://github.com/seung-lab/segascorus.git``
-``make``
-``cd /opt/znn-release/python``
-``cp tiffile.py /opt/znn-release/segascorus``
-``cd /opt/znn-release/segascorus``
-``python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif opt/znn-release/dataset/test/stack1-label.tif``
+Step 5 - Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the following and you will be able to see how training is progressing:
+::
+    sudo su
+    cd /opt/znn-release/python
+    screen -r
+
+Step 6 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
+
+Step 7 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model. Type the following commands:
+::
+    cd /opt/znn-release/python
+    python forward.py -c config.cfg
+Step 8 - Enter the commands below to evaluate the performance of the neural network on the test stack:
+::
+    cd /opt/znn-release
+    git clone https://github.com/seung-lab/segascorus.git
+    make
+    cd /opt/znn-release/python
+    cp tiffile.py /opt/znn-release/segascorus
+    cd /opt/znn-release/segascorus
+    python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif opt/znn-release/dataset/test/stack1-label.tif
+
 9) The python script should output something similar to the content below:
 ::
     Rand Error Full: 0.0373468767395
