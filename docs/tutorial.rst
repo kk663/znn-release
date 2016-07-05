@@ -521,7 +521,7 @@ Step 5 - Monitor how the training of the neural network proceeds. ZNN does not c
 
 Step 6 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
 
-Step 7 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model. Type the following commands:
+Step 7 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands:
 ::
     cd /opt/znn-release/python
     python forward.py -c config.cfg
