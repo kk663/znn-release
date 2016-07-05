@@ -500,14 +500,16 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 4. Commands to run Tutorial
 ---------------------------
 
-1) Get ZNN AMI from Will Wong
+1) Get ZNN AMI from William Wong
 2) Launch AWS EC2 instance of type ``c4.8xlarge`` (with 20-30 GB of storage) using ZNN AMI
 3) ssh into launched instance via the command line
 4) Enter the commands:
-``sudo su``
-``cd /opt/znn-release/python``
-``screen``
-``python train.py -c config.cfg``
+::
+    sudo su
+    cd /opt/znn-release/python
+    screen
+    python train.py -c config.cfg
+
 5) Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the following and you will be able to see how training is progressing:
 ``sudo su``
 ``cd /opt/znn-release/python``
