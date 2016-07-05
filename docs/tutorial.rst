@@ -532,7 +532,7 @@ Step 8 - Enter the commands below to evaluate the performance of the neural netw
     cd segascorus
     make
     cd /opt/znn-release/python
-    cp tiffile.py /opt/znn-release/segascorus
+    cp tifffile.py /opt/znn-release/segascorus
     cd /opt/znn-release/segascorus
     python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif opt/znn-release/dataset/test/stack1-label.tif
 
