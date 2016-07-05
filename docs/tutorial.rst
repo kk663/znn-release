@@ -497,8 +497,8 @@ if you are running forward pass intensively for a large image stack, it is recom
 
 NOTE: If your forward pass aborts without writing anything, try reducing the output size, as you may have run out of memory.
 
-4. Commands to run Tutorial
----------------------------
+4. Instructions for Running Tutorial Code
+-----------------------------------------
 
 Step 1 - Get ZNN AMI from William Wong
 
