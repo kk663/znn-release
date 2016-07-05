@@ -535,7 +535,7 @@ Step 8 - Enter the commands below to evaluate the performance of the neural netw
     cd /opt/znn-release/segascorus
     python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif opt/znn-release/dataset/test/stack1-label.tif
 
-9) The python script should output something similar to the content below:
+Step 9 - The python script should output something similar to the content below:
 ::
     Rand Error Full: 0.0373468767395
     Rand Error Merge: 6.46534700016e-06
