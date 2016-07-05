@@ -197,7 +197,9 @@ We then wish to apply max-pooling to significantly increase the 2D receptive fie
     type sum
     size 48
 
-BLAH BLAH
+We first define the edges that go from the previous layer to the pooling layer using command ``edges pool1``. We then specify that the edges object type is to be ``max_filter`` using command ``type max_filter``. This just means that the layers are connected one-to-one and max-filtering (i.e. max-pooling) is applied. The size of the pooling filer is specified to be ``2 x 2 x 1`` (x, y, z dimensions) with stride 1 in the z-dimension, stride 2 in the y-dimension and stride 2 in the x-dimension using commands ``size 1,2,2`` and ``stride 1,2,2``. We then define the input and output layers of the edges object.
+
+Afterwards, we must define the pooling layer nodes object using command ``nodes npool1``. We specify that the nodes object type is ``sum`` using command ``type sum`` and that there are 48 output feature maps using command ``size 48``. In this context, the ``sum`` type means that the values in the previous layer will be "max-pooled" and then transmitted to the next layer.
 
 We can then define the rest of the network using similar ``node`` and ``edge`` object declarations. Special attention must be paid to the declaration of the last layer of the network:
 ::
@@ -206,7 +208,7 @@ We can then define the rest of the network using similar ``node`` and ``edge`` o
     function linear
     size 2
 
-BLAH BLAH
+The last layer of the network is declared to have special name ``output`` using the command ``nodes output``. We specify that the transfer function (i.e. activation function) is to be ``linear`` (i.e. ``y = ax + b``) and this is to be applied to the weighted sum at each neuron in the last layer using commands ``type transfer`` and ``function linear``. We are trying to predict the neuronal boundaries by considering each pixel in the stack individually. We use a sliding window (with mirroring at the boundaries so no zero-padding is applied) that takes a fixed-size context image around the pixel-to-be-classified. For each pixel, we must output the probability of it being membrane and the probability of it being non-membrane. We thus must output 2 feature maps, one which contains the membrane pixel probabilities and the other which contains the non-membrane pixel probabilities. We specify that 2 feature maps must be output (one for each class) using the command ``size 2``.
 
 The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
 ::
