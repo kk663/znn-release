@@ -497,12 +497,54 @@ if you are running forward pass intensively for a large image stack, it is recom
 
 NOTE: If your forward pass aborts without writing anything, try reducing the output size, as you may have run out of memory.
 
-4. TO DO
+4. Commands to run Tutorial
+---------------------------
+
+1) Get ZNN AMI from Will Wong
+2) Launch AWS EC2 instance of type ``c4.8xlarge`` (with 20-30 GB of storage) using ZNN AMI
+3) ssh into launched instance via the command line
+4) Enter the commands:
+``sudo su``
+``cd /opt/znn-release/python``
+``screen``
+``python train.py -c config.cfg``
+5) Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the following and you will be able to see how training is progressing:
+``sudo su``
+``cd /opt/znn-release/python``
+`'screen -r``
+6) Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
+7) We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model. Type:
+``cd /opt/znn-release/python``
+``python forward.py -c config.cfg``
+8) Enter the commands below to evaluate the performance of the neural network on the test stack:
+``cd /opt/znn-release``
+``git clone https://github.com/seung-lab/segascorus.git``
+``make``
+``cd /opt/znn-release/python``
+``cp tiffile.py /opt/znn-release/segascorus``
+``cd /opt/znn-release/segascorus``
+``python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif opt/znn-release/dataset/test/stack1-label.tif``
+9) The python script should output something similar to the content below:
+::
+    Rand Error Full: 0.0373468767395
+    Rand Error Merge: 6.46534700016e-06
+    Rand Error Split: 0.0373404113925
+    Rand F Score Full: 9.34609309984e-05
+    Rand F Score Merge: 0.212575061507
+    Rand F Score Split: 4.67407405359e-05
+    Variation F Score Full: 0.398724422948
+    Variation F Score Merge: 0.998632619193
+    Variation F Score Split: 0.249089176191
+    Variation of Information Full: 11.967491642
+    Variation of Information Merge: 0.00543320565003
+    Variation of Information Split: 11.9620584363
+
+5. TO DO
 -----------
 - Publicly available ZNN AWS AMI (would be nice if segascorus came pre-installed and runs out-of-the-box and all the training specification/configuration files match those given above - some changes have been made to tutorial code)
 - Describe all the code in plain English using comments. Right now, need to do this for ``.znn`` and ``.cfg`` files.
 - State which instance type to use and what EBS storage size to use. Tell people how many iterations to run or hours to wait or just set the maximum number of iterations in the config.cfg file.
 - Be clearer about output size parameter and effect on memory. Find largest possible output size that works on suggested instance type
-- Talk about practical details of how to train using ZNN (need to monitor training and manually halt it when overfitting detected - otherwise training goes on until max number of iterations is reached). Talk about what update = iteration means and how ZNN does gradient descent. Recommend train patch sizes for 2D and 3D deep learning. Talk about outputs (trained neural net files) given by training.
+- Talk about practical details of how to train using ZNN (need to monitor training and manually halt it when overfitting detected - otherwise training goes on until max number of iterations is reached). Talk about what update = iteration means and how ZNN does gradient descent. Recommend train patch sizes for 2D and 3D deep learning. Talk about outputs (trained neural net files) given by training. Talk about how the forward-pass is of convolution type valid. I think max-pooling is of type valid too. Specify how ZNN automatically computes the context size for you using the field-of-view determined from the convolutional layers.
 - Talk about practical details of how to use ZNN to perform forward-pass/inference. This can be done using config.cfg file. Talk about what the forward-pass output is and how to interpret it. Give instructions for downloading and running segascorus to produce error metrics after forward-pass.
 - Provide direct tutorial instructions (all commands to run) in one box
