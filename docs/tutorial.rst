@@ -9,6 +9,8 @@ The tutorial assumes that you are already familiar with how to use AWS. If you a
 
 The tutorial also assumes that you are somewhat familiar with neural networks and how to train them.
 
+Please note that you can run ZNN on persistent spot instances in AWS EC2 with the help of starcluster. This helps reduce the cost of using AWS. We have prepared a `README <https://github.com/seung-lab/znn-release/blob/master/python/aws_train/README.md>`_ with instructions on how to use ZNN with starcluster.
+
 1. Dataset Preparation
 ----------------------
 
@@ -640,7 +642,3 @@ Step 9 - The python script should output something similar to the content below:
     Variation of Information Full: 11.967491642
     Variation of Information Merge: 0.00543320565003
     Variation of Information Split: 11.9620584363
-
-5. TO DO
------------
-- Publicly available ZNN AWS AMI (would be nice if segascorus came pre-installed and runs out-of-the-box and all the training specification/configuration files match those given above - some changes have been made to tutorial code)
