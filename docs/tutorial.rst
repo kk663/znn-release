@@ -210,6 +210,8 @@ We can then define the rest of the network using similar ``node`` and ``edge`` o
 
 The last layer of the network is declared to have special name ``output`` using the command ``nodes output``. We specify that the transfer function (i.e. activation function) is to be ``linear`` (i.e. ``y = ax + b``) and this is to be applied to the weighted sum at each neuron in the last layer using commands ``type transfer`` and ``function linear``. We are trying to predict the neuronal boundaries by considering each pixel in the stack individually. We use a sliding window (with mirroring at the boundaries so no zero-padding is applied) that takes a fixed-size context image around the pixel-to-be-classified. For each pixel, we must output the probability of it being membrane and the probability of it being non-membrane. We thus must output 2 feature maps, one which contains the membrane pixel probabilities and the other which contains the non-membrane pixel probabilities. We specify that 2 feature maps must be output (one for each class) using the command ``size 2``.
 
+Please note that all forward pass convolutions are of type valid while all backpropagated convolutions are of type full. Furthermore, the size of the sliding window or context window is automatically determined by ZNN. ZNN computes the field-of-view of the stacked convolutional layers (with pooling) and sets the size of the context window to be equal to that of the field-of-view. In addition, the max-pooling operation is carried out in a manner similar to the valid forward pass convolutions.
+
 The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
 ::
     nodes input
@@ -642,4 +644,3 @@ Step 9 - The python script should output something similar to the content below:
 5. TO DO
 -----------
 - Publicly available ZNN AWS AMI (would be nice if segascorus came pre-installed and runs out-of-the-box and all the training specification/configuration files match those given above - some changes have been made to tutorial code)
-- Talk about how the forward-pass is of convolution type valid. I think max-pooling is of type valid too. Specify how ZNN automatically computes the context size for you using the field-of-view determined from the convolutional layers.
