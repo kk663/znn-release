@@ -554,7 +554,7 @@ The following code is present in ``config.cfg`` which can be found `here <https:
     
 Training the N4 network
 ```````````````````````
-After setting up the configuration file, you can now train your network. You need to run training as root. Please enter ``sudo su`` in the terminal after you have ssh-ed to your AWS instance (the instance launched using the ZNN AWS AMI image). 
+After setting up the configuration file, you can now train your network. You need to run training as root. Please enter ``sudo su`` in the terminal before training. 
 
 Make sure you run the following command from within the ``/opt/znn-release/python`` directory. This is a limitation that can be fixed in future releases.
 ::
