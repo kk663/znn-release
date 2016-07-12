@@ -15,6 +15,7 @@ Contents:
 
    introduction
    install
+   local_tutorial
    tutorial
    reference
 
