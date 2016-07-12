@@ -421,6 +421,8 @@ Then, we must specify the command line output during training (recall that one i
     # maximum iteration
     Max_iter = 200000
 
+Training needs to be manually monitored as it proceeds (i.e. read the ZNN command line output). Look carefully at the rand error and pixel error. If the validation pixel error flat-lines over many iterations/updates, try stopping training and then resuming training with smaller learning rate ``eta``. If the validation pixel error goes up over many iterations/updates, stop training immediately to prevent overfitting. Unless training is terminated manually, it will continue until the maximum number of iterations is reached as specified by field ``Max_iter``.
+
 Finally, we must specify the forward pass or inference properties. We use the test stack or stack1 for performing forward pass as specified by ``forward_range``. The forward pass is performed using the full file path of the trained model specified by ``forward_net``. Similar to training, we can perform dense forward pass output to speed up inference on a test stack at the cost of memory by specifying the field ``forward_outsz``. The output of ZNN forward pass is a ``.h5`` file with the boundary detection output for each class or one ``.tif`` file containing the boundary detections for each class. The output prefix file path is specified using the field ``output_prefix``:
 ::
     # forward
@@ -554,9 +556,11 @@ Training the N4 network
 ```````````````````````
 After setting up the configuration file, you can now train your network. You need to run training as root. Please enter ``sudo su`` in the terminal after you have ssh-ed to your AWS instance (the instance launched using the ZNN AWS AMI image). 
 
-Make sure you run the following command from within the `/opt/znn-release/python` directory. This is a limitation that can be fixed in future releases.
+Make sure you run the following command from within the ``/opt/znn-release/python`` directory. This is a limitation that can be fixed in future releases.
 ::
     python train.py -c config.cfg 
+
+NOTE: If your training aborts without writing any iterations/updates, try reducing the output size as you may have run out of memory.
 
 Resume training the N4 network
 ``````````````````````````````
@@ -579,7 +583,7 @@ run the following command:
     python forward.py -c config.cfg
 if you are running forward pass intensively for a large image stack, it is recommanded to recompile python core using `DZNN_DONT_CACHE_FFTS`. Without caching FFTS, you can use a large output size, which reuse a lot of computation and speed up your forward pass.
 
-NOTE: If your forward pass aborts without writing anything, try reducing the output size, as you may have run out of memory.
+NOTE: If your forward pass aborts without writing anything, try reducing the output size as you may have run out of memory.
 
 4. Instructions for Running Tutorial Code
 -----------------------------------------
@@ -638,5 +642,4 @@ Step 9 - The python script should output something similar to the content below:
 5. TO DO
 -----------
 - Publicly available ZNN AWS AMI (would be nice if segascorus came pre-installed and runs out-of-the-box and all the training specification/configuration files match those given above - some changes have been made to tutorial code)
-- Talk about practical details of how to train using ZNN (need to monitor training and manually halt it when overfitting detected - otherwise training goes on until max number of iterations is reached). Talk about outputs (trained neural net files) given by training. Talk about how the forward-pass is of convolution type valid. I think max-pooling is of type valid too. Specify how ZNN automatically computes the context size for you using the field-of-view determined from the convolutional layers.
-- Talk about practical details of how to use ZNN to perform forward-pass/inference. This can be done using config.cfg file. Talk about what the forward-pass output is and how to interpret it. Give instructions for downloading and running segascorus to produce error metrics after forward-pass.
+- Talk about how the forward-pass is of convolution type valid. I think max-pooling is of type valid too. Specify how ZNN automatically computes the context size for you using the field-of-view determined from the convolutional layers.
