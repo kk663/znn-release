@@ -24,7 +24,7 @@ label image     .tif              32 or RGB
 * For training, you should prepare pairs of ``.tif`` files, one is a stack of raw images, the other is a stack of labeled images. A label is defined as a unique RGBA color.
 * For forward pass, only the raw image stack is needed.
 
-The dataset is already provided in the AMI. It can be found in the folder ``/opt/znn-release/dataset/test``. This folder should contain the following files: ``dataset.spec``, ``stack1-label.tif``, ``stack2-label.tif``, ``stack1-image.tif`` and ``stack2-image.tif``.
+The dataset can be found in this `folder <https://github.com/seung-lab/znn-release/tree/master/dataset/test>`_. This folder should contain the following files: ``dataset.spec``, ``stack1-label.tif``, ``stack2-label.tif``, ``stack1-image.tif`` and ``stack2-image.tif``.
 
 Image configuration
 ```````````````````
@@ -77,7 +77,7 @@ Next, let's define the bindings of raw image stacks and the corresponding labell
 
 We must use ``[sample]`` sections to indicate the pairing of the raw image stacks and the corresponding labelled image stacks (each sample can be thought of as a raw image stack and the corresponding labelled image stack). For stack1, we must first include the ``[sample1]`` header. Note that the number in the header (at the end) can be any positive integer. Next, we must specify that the input is the raw image stack with section header ``image1`` and the (ground truth) output is the labelled image stack with section header ``label1``. We then repeat the same thing (section header, input field and output field) for stack2.
 
-The full code can be found in the ``dataset.spec`` file in the folder ``/opt/znn-release/dataset/test`` and is as follows:
+The full code can be found in the ``dataset.spec`` file `here <https://github.com/seung-lab/znn-release/blob/master/dataset/test/dataset.spec>`_ and is as follows:
 ::
     # samples example
     # the [image] sections indicate the network inputs
@@ -210,7 +210,7 @@ The last layer of the network is declared to have special name ``output`` using 
 
 Please note that all forward pass convolutions are of type valid while all backpropagated convolutions are of type full. Furthermore, the size of the sliding window or context window is automatically determined by ZNN. ZNN computes the field-of-view of the stacked convolutional layers (with pooling) and sets the size of the context window to be equal to that of the field-of-view. In addition, the max-pooling operation is carried out in a manner similar to the valid forward pass convolutions.
 
-The following code is present in ``N4.znn`` which can be found in folder ``/opt/znn-release/networks``:
+The following code is present in ``N4_relu.znn`` file which can be found `here <https://github.com/seung-lab/znn-release/blob/master/networks/N4_relu.znn>`_ (please rename this file to N4.znn):
 ::
     nodes input
     type input
@@ -439,7 +439,7 @@ Finally, we must specify the forward pass or inference properties. We use the te
     # output file name prefix
     output_prefix = ../experiments/piriform/N4/out
 
-The following code is present in ``config.cfg`` which can be found in folder ``/opt/znn-release/python``:
+The following code is present in ``config.cfg`` which can be found `here <https://github.com/seung-lab/znn-release/blob/master/python/config.cfg>`_:
 ::
     [parameters]
     # general
@@ -588,32 +588,28 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 4. Instructions for Running Tutorial Code
 -----------------------------------------
 
-Step 1 - Get ZNN AMI from `William Wong <william.wong@princeton.edu>`_
+Step 1 - Open a terminal 
 
-Step 2 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 20-30 GB of storage) using ZNN AMI
-
-Step 3 - ssh into launched instance via the command line
-
-Step 4 - Enter the commands:
+Step 2 - Enter the commands:
 ::
     sudo su
     cd /opt/znn-release/python
     screen
     python train.py -c config.cfg
 
-Step 5 - Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the following and you will be able to see how training is progressing:
+Step 3 - Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the following and you will be able to see how training is progressing:
 ::
     sudo su
     cd /opt/znn-release/python
     screen -r
 
-Step 6 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
+Step 4 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
 
-Step 7 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands:
+Step 5 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands:
 ::
     cd /opt/znn-release/python
     python forward.py -c config.cfg
-Step 8 - Enter the commands below to evaluate the performance of the neural network on the test stack:
+Step 6 - Enter the commands below to evaluate the performance of the neural network on the test stack:
 ::
     cd /opt/znn-release
     git clone https://github.com/seung-lab/segascorus.git
@@ -624,7 +620,7 @@ Step 8 - Enter the commands below to evaluate the performance of the neural netw
     cd /opt/znn-release/segascorus
     python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif /opt/znn-release/dataset/test/stack1-label.tif
 
-Step 9 - The python script should output something similar to the content below:
+Step 7 - The python script should output something similar to the content below:
 ::
     Rand Error Full: 0.0373468767395
     Rand Error Merge: 6.46534700016e-06
@@ -641,6 +637,5 @@ Step 9 - The python script should output something similar to the content below:
 
 5. TO DO
 ---------
-
 - Re-write tutorial to focus on local installs
 - May need to provide data and code files. Probably good idea to post data/code in docs folder.
