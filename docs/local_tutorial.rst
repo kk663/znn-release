@@ -638,4 +638,4 @@ Step 7 - The python script should output something similar to the content below:
 5. TO DO
 ---------
 - Re-write tutorial to focus on local installs
-- May need to provide data and code files. Probably good idea to post data/code in docs folder.
+- Need to fix file paths and commands related to file paths. User clones github repo for install presumably.
