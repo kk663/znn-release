@@ -353,6 +353,90 @@ The training and forward parameters of the network can be set using a configurat
 The configuration file uses the commonly used `Python ConfigParser <https://docs.python.org/2/library/configparser.html>`_. Consult that link for detailed information on acceptable syntax.
 The ``.cfg`` file uses ``[sections]`` to ecapsulate different parameter sets. In the past, we used to use multiple sections, but now we just use one called ``[parameters]``.
 
+First, we must specify the full file path of the network architecture or ``.znn`` file:
+::
+    fnet_spec = ../networks/N4.znn
+
+Then we must specify the full file path of the dataset specification file or ``.spec`` file:
+::
+    fdata_spec = ../dataset/test/dataset.spec
+
+We next specify the type of network output, which can be either `boundary <https://papers.nips.cc/paper/4741-deep-neural-networks-segment-neuronal-membranes-in-electron-microscopy-images>`_ or `affinity <http://web.mit.edu/people/sturaga/papers/Turaga2010NC.pdf>`_:
+::
+    out_type = boundary
+
+During training, ZNN will periodically save the learned network in a file (e.g.: net_21000.h5, net_current.h5). We must specify the prefix file path for these files:
+::
+    train_net_prefix = ../experiments/piriform/N4/net
+
+Next, we must specify the sample ID numbers for the train and validation/test stacks. In this tutorial, we use stack2 for training and stack1 for testing:
+::
+    # example: 2-3,7
+    train_range = 2
+    test_range = 1
+
+ZNN performs optimization using a procedure similar to mini-batch stochastic gradient descent. Recall that we are classifying each pixel in the 2D image slices by taking a context window centered at that pixel and feeding that window to a CNN ("sliding window" approach). To speed things up during training, ZNN takes several context windows in a region, performs a forward pass on them and then updates the weights of the CNN model (this is like mini-batch stochastic gradient descent but not quite because the context windows overlap). Note that this step is referred to as an update/iteration in the ZNN command line output. We call this dense output forward pass and it speeds up training significantly. However, it comes at the cost of high memory usage. The code snippet below shows an example for setting the train dense output size (the train dense output size can be as big as the size of a single 2D image slice for 2D sliding window CNNs but a train dense output size of something like ``5, 70, 70`` is recommended for 3D sliding window CNNs):
+::
+    # dense output size of one forward pass: z,y,x
+    # large output size can reduce the computational redundency
+    # this parameter affects the memory consumption a lot.
+    # keep an eye to the memory, if it occupies too much memory, reduce this outsz
+    train_outsz = 1,100,100
+
+Afterwards, we must specify the hyperparameters for the model-to-be-learned:
+::
+    # learning rate
+    eta = 0.01
+    # annealing factor
+    anneal_factor = 0.997
+    # number of iteration per learning rate annealing
+    Num_iter_per_annealing = 100
+    # momentum
+    momentum = 0.9
+    # weight decay
+    weight_decay = 0
+
+Then, we must specify the data augmentation, mirroring and training data balance properties for training:
+::
+    # randomly transform patches to enrich training data, including rotation, fliping
+    is_data_aug = yes
+    # mirror the image region close to boundaries to get a full size output
+    is_bd_mirror = yes
+    # balance the boundary and non-boundary voxel
+    # global: compute the weight in the whole image stack
+    # patch: compute the balance weight for each patch
+    rebalance_mode = global
+
+Then, we must specify the command line output during training (recall that one iteration/update is simply one "mini-batch" stochastic gradient descent step):
+::
+    # number of iteration per output
+    Num_iter_per_show = 100
+    # number of iteration per validation/test during training
+    Num_iter_per_test = 200
+    # number of patches to run forward pass for validation/test
+    # the larger the smoother of learning curve, but the slower the training
+    test_num = 10
+    # number of iteration per save
+    Num_iter_per_save = 1000
+    # maximum iteration
+    Max_iter = 200000
+
+Finally, we must specify the forward pass or inference properties. We use the test stack or stack1 for performing forward pass as specified by ``forward_range``. The forward pass is performed using the full file path of the trained model specified by ``forward_net``. Similar to training, we can perform dense forward pass output to speed up inference on a test stack at the cost of memory by specifying the field ``forward_outsz``. The output of ZNN forward pass is a ``.h5`` file with the boundary detection output for each class or one ``.tif`` file containing the boundary detections for each class. The output prefix file path is specified using the field ``output_prefix``:
+::
+    # forward
+    # sample ID for forward pass, example: 2-3,8
+    forward_range = 1
+    # forward network
+    forward_net = ../experiments/piriform/N4/net_current.h5
+    # forward convolution mode: fft, direct, optimize
+    # since optimization takes a long time, normally just use fft
+    forward_conv_mode = fft
+    # output size of one forward pass: z,y,x
+    # the larger the faster, limited by the memory capacity.
+    forward_outsz = 5,100,100
+    # output file name prefix
+    output_prefix = ../experiments/piriform/N4/out
+
 The following code is present in ``config.cfg`` which can be found in folder ``/opt/znn-release/python``:
 ::
     [parameters]
@@ -554,6 +638,5 @@ Step 9 - The python script should output something similar to the content below:
 5. TO DO
 -----------
 - Publicly available ZNN AWS AMI (would be nice if segascorus came pre-installed and runs out-of-the-box and all the training specification/configuration files match those given above - some changes have been made to tutorial code)
-- Be clearer about output size parameter and effect on memory. Find largest possible output size that works on suggested instance type
-- Talk about practical details of how to train using ZNN (need to monitor training and manually halt it when overfitting detected - otherwise training goes on until max number of iterations is reached). Talk about what update = iteration means and how ZNN does gradient descent. Recommend train patch sizes for 2D and 3D deep learning. Talk about outputs (trained neural net files) given by training. Talk about how the forward-pass is of convolution type valid. I think max-pooling is of type valid too. Specify how ZNN automatically computes the context size for you using the field-of-view determined from the convolutional layers.
+- Talk about practical details of how to train using ZNN (need to monitor training and manually halt it when overfitting detected - otherwise training goes on until max number of iterations is reached). Talk about outputs (trained neural net files) given by training. Talk about how the forward-pass is of convolution type valid. I think max-pooling is of type valid too. Specify how ZNN automatically computes the context size for you using the field-of-view determined from the convolutional layers.
 - Talk about practical details of how to use ZNN to perform forward-pass/inference. This can be done using config.cfg file. Talk about what the forward-pass output is and how to interpret it. Give instructions for downloading and running segascorus to produce error metrics after forward-pass.
