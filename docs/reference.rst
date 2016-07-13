@@ -128,8 +128,8 @@ Note: In the Description column for functions, the relevant init_args are presen
  ..                           xavier              Filters are assigned as described in `Glorot and Bengio 2010 <http://jmlr.org/proceedings/papers/v9/glorot10a/glorot10a.pdf>`_ [1].
  ..                           msra                Filters are assigned as described in `He, Zhang, Ren and Sun 2015 <http://arxiv.org/abs/1502.01852>`_ [2].
  init_args        N           $VALUES             Input comma seperated values of the type appropriate for the selected init.
- size             Y           $X,$Y,$Z            Size of sliding window in pixels. 2D nets can be implemented by setting $Z to 1.
- stride           Y           $X,$Y,$Z            How far to jump in each direction in pixels when sliding the window.
+ size             Y           $Z,$Y,$X            Size of convolutional kernel. 2D nets can be implemented by setting $Z to 1.
+ stride           Y           $Z,$Y,$X            Stride used with convolutional kernel
  input            Y           $NODES_NAME         Name of source ``nodes`` layer that the edge will be transforming.
  output           Y           $NODES_NAME         Name of destination ``nodes`` layer that the edge will be transforming.
 ================ =========== =================== ================================================================
