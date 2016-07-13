@@ -642,3 +642,5 @@ Step 9 - The python script should output something similar to the content below:
     Variation of Information Full: 11.967491642
     Variation of Information Merge: 0.00543320565003
     Variation of Information Split: 11.9620584363
+
+Please see the document `here <https://github.com/seung-lab/segascorus/blob/master/segerror-manual.pdf>`_ for more information on the metrics used above.
