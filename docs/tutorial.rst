@@ -623,9 +623,6 @@ Step 8 - Enter the commands below to evaluate the performance of the neural netw
     git clone https://github.com/seung-lab/segascorus.git
     cd segascorus
     make
-    cd /opt/znn-release/python
-    cp tifffile.py /opt/znn-release/segascorus
-    cd /opt/znn-release/segascorus
     python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif /opt/znn-release/dataset/test/stack1-label.tif
 
 Step 9 - The python script should output something similar to the content below:
