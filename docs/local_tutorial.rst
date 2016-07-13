@@ -554,7 +554,7 @@ The following code is present in ``config.cfg`` which can be found `here <https:
     
 Training the N4 network
 ```````````````````````
-After setting up the configuration file, you can now train your network. You need to run training as root. Please enter ``sudo su`` in the terminal before training. 
+After setting up the configuration file, you can now train your network.
 
 Make sure you run the following command from within the ``/opt/znn-release/python`` directory. This is a limitation that can be fixed in future releases.
 ::
@@ -592,7 +592,6 @@ Step 1 - Open a terminal
 
 Step 2 - Enter the commands:
 ::
-    sudo su
     cd /opt/znn-release/python
     screen
     python train.py -c config.cfg
@@ -635,7 +634,8 @@ Step 7 - The python script should output something similar to the content below:
     Variation of Information Merge: 0.00543320565003
     Variation of Information Split: 11.9620584363
 
+Please see the document `here <https://github.com/seung-lab/segascorus/blob/master/segerror-manual.pdf>`_ for more information on the metrics used above.
+
 5. TO DO
 ---------
-- Re-write tutorial to focus on local installs
 - Need to fix file paths and commands related to file paths. User clones github repo for install presumably.
