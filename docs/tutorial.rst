@@ -613,11 +613,11 @@ Step 5 - Monitor how the training of the neural network proceeds. ZNN does not c
 
 Step 6 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
 
-Step 7 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands:
+Step 7 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands (need to be root user - type ``sudo su`` if needed):
 ::
     cd /opt/znn-release/python
     python forward.py -c config.cfg
-Step 8 - Enter the commands below to evaluate the performance of the neural network on the test stack:
+Step 8 - Enter the commands below to evaluate the performance of the neural network on the test stack (need to be root user - type ``sudo su`` if needed):
 ::
     cd /opt/znn-release
     sudo git clone https://github.com/seung-lab/segascorus.git
