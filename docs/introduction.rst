@@ -1,7 +1,7 @@
 Introduction
 ============
 
-ZNN is a multi-core CPU implementation of deep learning for 2D and 3D convolutional networks (ConvNets). While the core is written in C++, it is most often controlled via the Python interface.
+ZNN is a multi-core CPU implementation of deep learning for 2D and 3D CNNs (Convolutional Neural Networks). While the core is written in C++, it is most often controlled via the Python interface.
 
 When to Use ZNN
 ---------------
@@ -44,7 +44,7 @@ Once you've gotten a binary of ZNN either by compiling or using one of our Amazo
     * Provides layout of your convolutional neural network 
     * Some `sample networks <https://github.com/seung-lab/znn-release/tree/master/networks>`_ are available.
 4. Job Configuration File (.cfg `example <https://github.com/seung-lab/znn-release/blob/master/python/config.cfg>`_)
-5. Some prior familiarity with CNNs (Convolutional Neural Networks)
+5. Some prior familiarity with CNNs
 
 Keep following this tutorial and you will learn about how to use ZNN.
 
