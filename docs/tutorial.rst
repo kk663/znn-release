@@ -592,7 +592,7 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 4. Instructions for Running Tutorial Code
 -----------------------------------------
 
-Step 1 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 30 GB of EBS or Elastic Block Store storage) using the ZNN AMI. To find the ZNN AMI, set your AWS region to ``US East (N. Virginia)``, select the ``Community AMIs`` tab and search for ``ZNN``. You should find the ZNN AMI under the name ``ZNN Public Release - ami-161d9101`` with description ``Public AMI for running ZNN out-of-the-box. Comes with segascorus err-scoring software``.
+Step 1 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 30 GB of EBS or Elastic Block Store storage) using the ZNN AMI. To find the ZNN AMI, set your AWS region to ``US East (N. Virginia)``, select the ``Community AMIs`` tab and search for ``ZNN``. You should find the ZNN AMI under the name ``ZNN Public Release - ami-161d9101`` with description ``Public AMI for running ZNN out-of-the-box. Comes with segascorus error-scoring software``.
 
 Step 2 - ssh into launched instance via the command line
 
