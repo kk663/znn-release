@@ -33,7 +33,7 @@ ZNN requires a ``.spec`` file that provides the binding between the raw image st
 
 The raw image stack and the corresponding labelled image stack are defined as a **Sample**.
 
-The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment (you can have multiple input stacks for both training and forward-pass/inference).
+The ``.spec`` file format allows you to specify multiple files as inputs (stack images) and outputs (ground truth labels) for a given experiment (you can have multiple input stacks for both training and inference or forward pass).
 
 Recall that we have two image stacks: stack1 and stack2. Let's define the raw image stacks as inputs in the ``.spec`` file:
 ::
@@ -588,26 +588,52 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 4. Instructions for Running Tutorial Code on Linux and Mac OS
 -------------------------------------------------------------
 
-Step 1 - Open a terminal and cd to the znn-release folder on your local machine
+Step 1 - Open a terminal and cd to the ``znn-release`` folder on your local machine
 
-Step 2 - Enter the commands:
+Step 2 - Enter the commands below (note that ZNN should state that the field of view or sliding window size of the N4 network is ``(1, 95, 95)``, which is ``95 x 95 x 1`` in the x, y, z dimensions):
 ::
     cd python
     screen
     python train.py -c config.cfg
 
-Step 3 - Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. If you want to see how training is progressing, just open a terminal, cd to the znn-release folder and then type the following commands:
+Step 3 - Monitor how the training of the neural network proceeds. You should see output similar to the following as training proceeds:
+::
+    start from  1
+    save as  ../experiments/piriform/N4/net_init.h5
+    stdpre:  /processing/znn/train/statistics/
+    update 100,    cost: 0.341, pixel error: 0.465, rand error: 0.198, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 200,    cost: 0.301, pixel error: 0.347, rand error: 0.217, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 200,     cost: 0.303, pixel error: 0.350
+    update 300,    cost: 0.279, pixel error: 0.309, rand error: 0.193, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 400,    cost: 0.252, pixel error: 0.269, rand error: 0.178, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 400,     cost: 0.273, pixel error: 0.301
+    update 500,    cost: 0.234, pixel error: 0.236, rand error: 0.155, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 600,    cost: 0.242, pixel error: 0.248, rand error: 0.163, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 600,     cost: 0.246, pixel error: 0.255
+    update 700,    cost: 0.239, pixel error: 0.245, rand error: 0.162, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 800,    cost: 0.233, pixel error: 0.236, rand error: 0.157, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 800,     cost: 0.223, pixel error: 0.226
+    update 900,    cost: 0.206, pixel error: 0.197, rand error: 0.136, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 1000,    cost: 0.209, pixel error: 0.202, rand error: 0.152, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 1000,     cost: 0.212, pixel error: 0.213
+    save as  ../experiments/piriform/N4/net_1000.h5
+    stdpre:  /processing/znn/train/statistics/
+    update 1100,    cost: 0.214, pixel error: 0.206, rand error: 0.162, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 1200,    cost: 0.204, pixel error: 0.198, rand error: 0.152, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 1200,     cost: 0.238, pixel error: 0.248
+
+ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. If you want to see how training is progressing, just open a terminal, cd to the ``znn-release`` folder and then type the following commands:
 ::
     cd python
     screen -r
 
 Step 4 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
 
-Step 5 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Open a terminal, cd to the znn-release folder, and then type the following commands:
+Step 5 - We now need to run inference or forward pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Open a terminal, cd to the ``znn-release`` folder, and then type the following commands:
 ::
     cd python
     python forward.py -c config.cfg
-Step 6 - Enter the commands below to evaluate the performance of the neural network on the test stack (assumes that terminal is in the python directory in znn-release):
+Step 6 - Enter the commands below to evaluate the performance of the neural network on the test stack (assumes that terminal is in the ``python`` directory in ``znn-release``):
 ::
     cd ..
     git clone https://github.com/seung-lab/segascorus.git
