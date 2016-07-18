@@ -38,9 +38,9 @@ Once you've gotten a binary of ZNN either by compiling or using one of our Amazo
     * Dataset 
     * Ground Truth
     * `tif <https://en.wikipedia.org/wiki/Tagged_Image_File_Format>`_ and `h5 <https://en.wikipedia.org/wiki/Hierarchical_Data_Format>`_ formats are supported.
-2. Sample Definition File (.spec `example <https://github.com/seung-lab/znn-release/blob/master/dataset/ISBI2012/dataset.spec>`_)
+2. Sample Definition File (.spec `example <https://github.com/seung-lab/znn-release/blob/master/dataset/test/dataset.spec>`_)
     * Provides binding between datasets and ground truths. 
-3. Network Architecture File (.znn `example <https://github.com/seung-lab/znn-release/blob/master/networks/srini.znn>`_)
+3. Network Architecture File (.znn `example <https://github.com/seung-lab/znn-release/blob/master/networks/N4_relu.znn>`_)
     * Provides layout of your convolutional neural network 
     * Some `sample networks <https://github.com/seung-lab/znn-release/tree/master/networks>`_ are available.
 4. Job Configuration File (.cfg `example <https://github.com/seung-lab/znn-release/blob/master/python/config.cfg>`_)
