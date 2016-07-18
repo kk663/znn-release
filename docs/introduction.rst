@@ -44,9 +44,9 @@ Once you've gotten a binary of ZNN either by compiling or using one of our Amazo
     * Provides layout of your convolutional neural network 
     * Some `sample networks <https://github.com/seung-lab/znn-release/tree/master/networks>`_ are available.
 4. Job Configuration File (.cfg `example <https://github.com/seung-lab/znn-release/blob/master/python/config.cfg>`_)
-5. Some prior familiarity with convnets. ;)
+5. Some prior familiarity with CNNs (Convolutional Neural Networks)
 
-Keep following this tutorial and you'll learn how to put it all together.
+Keep following this tutorial and you will learn about how to use ZNN.
 
 Resources
 ---------
