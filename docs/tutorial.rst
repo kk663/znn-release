@@ -594,7 +594,7 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 
 Step 1 - Get ZNN AMI from `William Wong <william.wong@princeton.edu>`_
 
-Step 2 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 20-30 GB of storage) using ZNN AMI
+Step 2 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 30 GB of storage) using ZNN AMI
 
 Step 3 - ssh into launched instance via the command line
 
