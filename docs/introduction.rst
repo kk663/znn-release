@@ -46,7 +46,7 @@ Once you've gotten a binary of ZNN either by compiling or using one of our Amazo
 4. Job Configuration File (.cfg `example <https://github.com/seung-lab/znn-release/blob/master/python/config.cfg>`_)
     * Configures training and inference for your convolutional neural network 
 5. Some prior familiarity with CNNs
-    * See the 'Stanford CS231n CNN notes <http://cs231n.github.io/convolutional-networks/>`_ for background
+    * See the `Stanford CS231n CNN notes <http://cs231n.github.io/convolutional-networks/>`_ for background
 
 Keep following this tutorial and you will learn about how to use ZNN.
 
