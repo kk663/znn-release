@@ -585,8 +585,8 @@ if you are running forward pass intensively for a large image stack, it is recom
 
 NOTE: If your forward pass aborts without writing anything, try reducing the output size as you may have run out of memory.
 
-4. Instructions for Running Tutorial Code on Linux and Mac OS
--------------------------------------------------------------
+4. Instructions for Running Tutorial Code on Linux and Mac OS X
+---------------------------------------------------------------
 
 Step 1 - Open a terminal and cd to the ``znn-release`` folder on your local machine
 
