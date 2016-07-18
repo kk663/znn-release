@@ -1,7 +1,7 @@
 Introduction
 ============
 
-ZNN is a multi-core CPU implementation of deep learning for 2D and 3D CNNs (Convolutional Neural Networks). While the core is written in C++, it is most often controlled via the Python interface.
+ZNN is a multi-core CPU implementation of deep learning for 2D and 3D CNNs (Convolutional Neural Networks). While the core is written in C++, it is most often controlled via the python interface.
 
 When to Use ZNN
 ---------------
@@ -32,7 +32,7 @@ Most of current deep learning implementations use GPUs, but that approach has so
 What do I need to use ZNN?
 --------------------------
 
-Once you've gotten a binary of ZNN either by compiling or using one of our Amazon Web Service AMIs (machine images), here's what you'll need to get started:
+Once you've gotten a binary of ZNN either by compiling or using one of our Amazon Web Service AMIs (Amazon Machine Images), here's what you'll need to get started:
 
 1. Image Stacks 
     * Dataset 
