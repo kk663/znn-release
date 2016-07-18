@@ -12,7 +12,7 @@ When to Use ZNN
 4. FFTs of the feature maps and gradients can fit in RAM, but not on the GPU
 5. Runs out of the box on machines with large numbers of cores (e.g. 144+ circa 2016)
 
-ZNN shines when filter sizes are large so that FFTs are used.
+ZNN shines when filter sizes are large so that FFTs (Fast Fourier Transforms) are used.
 
 CPU vs GPU?
 -----------
