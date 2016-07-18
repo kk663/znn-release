@@ -645,10 +645,7 @@ Step 7 - We now need to run inference or forward pass on the test stack (stack1)
     python forward.py -c config.cfg
 Step 8 - Enter the commands below to evaluate the performance of the neural network on the test stack (need to be root user - type ``sudo su`` if needed):
 ::
-    cd /opt/znn-release
-    git clone https://github.com/seung-lab/segascorus.git
-    cd segascorus
-    make
+    cd /opt/znn-release/segascorus
     python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif /opt/znn-release/dataset/test/stack1-label.tif
 
 Step 9 - The python script should output something similar to the content below:
