@@ -598,14 +598,40 @@ Step 2 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 30 GB of storage) 
 
 Step 3 - ssh into launched instance via the command line
 
-Step 4 - Enter the commands:
+Step 4 - Enter the commands below (note that ZNN should state that the field of view or sliding window size of the N4 network is ``(1, 95, 95)``, which is ``95 x 95 x 1`` in the x, y, z dimensions):
 ::
     sudo su
     cd /opt/znn-release/python
     screen
     python train.py -c config.cfg
 
-Step 5 - Monitor how the training of the neural network proceeds. ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the following and you will be able to see how training is progressing:
+Step 5 - Monitor how the training of the neural network proceeds.  You should see output similar to the following as training proceeds:
+::
+    start from  1
+    save as  ../experiments/piriform/N4/net_init.h5
+    stdpre:  /processing/znn/train/statistics/
+    update 100,    cost: 0.341, pixel error: 0.465, rand error: 0.198, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 200,    cost: 0.301, pixel error: 0.347, rand error: 0.217, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 200,     cost: 0.303, pixel error: 0.350
+    update 300,    cost: 0.279, pixel error: 0.309, rand error: 0.193, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 400,    cost: 0.252, pixel error: 0.269, rand error: 0.178, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 400,     cost: 0.273, pixel error: 0.301
+    update 500,    cost: 0.234, pixel error: 0.236, rand error: 0.155, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 600,    cost: 0.242, pixel error: 0.248, rand error: 0.163, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 600,     cost: 0.246, pixel error: 0.255
+    update 700,    cost: 0.239, pixel error: 0.245, rand error: 0.162, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 800,    cost: 0.233, pixel error: 0.236, rand error: 0.157, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 800,     cost: 0.223, pixel error: 0.226
+    update 900,    cost: 0.206, pixel error: 0.197, rand error: 0.136, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 1000,    cost: 0.209, pixel error: 0.202, rand error: 0.152, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 1000,     cost: 0.212, pixel error: 0.213
+    save as  ../experiments/piriform/N4/net_1000.h5
+    stdpre:  /processing/znn/train/statistics/
+    update 1100,    cost: 0.214, pixel error: 0.206, rand error: 0.162, elapsed: 0.7 s/iter, learning rate: 0.010
+    update 1200,    cost: 0.204, pixel error: 0.198, rand error: 0.152, elapsed: 0.7 s/iter, learning rate: 0.010
+    test iter: 1200,     cost: 0.238, pixel error: 0.248
+
+ZNN does not check convergence and so it will run until the maximum number of iterations specified in the configuration file. To detach the window (using screen), simply type ``ctrl + A + D``. When you ssh back into your instance, just type the commands below and you will be able to see how training is progressing:
 ::
     sudo su
     cd /opt/znn-release/python
@@ -613,7 +639,7 @@ Step 5 - Monitor how the training of the neural network proceeds. ZNN does not c
 
 Step 6 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
 
-Step 7 - We now need to run inference/forward-pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands (need to be root user - type ``sudo su`` if needed):
+Step 7 - We now need to run inference/forward pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands (need to be root user - type ``sudo su`` if needed):
 ::
     cd /opt/znn-release/python
     python forward.py -c config.cfg
