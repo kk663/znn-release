@@ -5,7 +5,7 @@ The tutorial will help you learn how to use ZNN with the help of AWS (Amazon Web
 
 The tutorial focuses on usage of the python interface since it is more convenient to use.
 
-The tutorial assumes that you are already familiar with how to use AWS. If you are not familiar with how to use AWS, please consult the AWS tutorial `here <https://cs224d.stanford.edu/supplementary/aws-tutorial-2.pdf>`_. Please contact `William Wong <william.wong@princeton.edu>`_ to get an AWS account or share the ZNN AMI with your account. The ZNN AMI is not currently publicly available.
+The tutorial assumes that you are already familiar with how to use AWS. If you are not familiar with how to use AWS, please consult the AWS tutorial `here <https://cs224d.stanford.edu/supplementary/aws-tutorial-2.pdf>`_. The ZNN AMI is publicly available in the ``US East (N. Virginia)`` region under the name ``ZNN Public Release`` with AMI ID ``ami-161d9101``.
 
 The tutorial also assumes that you are somewhat familiar with neural networks and how to train them.
 
@@ -592,20 +592,18 @@ NOTE: If your forward pass aborts without writing anything, try reducing the out
 4. Instructions for Running Tutorial Code
 -----------------------------------------
 
-Step 1 - Get ZNN AMI from `William Wong <william.wong@princeton.edu>`_
+Step 1 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 30 GB of EBS or Elastic Block Store storage) using the ZNN AMI. To find the ZNN AMI, set your AWS region to ``US East (N. Virginia)``, select the ``Community AMIs`` tab and search for ``ZNN``. You should find the ZNN AMI under the name ``ZNN Public Release - ami-161d9101`` with description ``Public AMI for running ZNN out-of-the-box. Comes with segascorus err-scoring software``.
 
-Step 2 - Launch AWS EC2 instance of type ``c4.8xlarge`` (with 30 GB of storage) using ZNN AMI
+Step 2 - ssh into launched instance via the command line
 
-Step 3 - ssh into launched instance via the command line
-
-Step 4 - Enter the commands below (note that ZNN should state that the field of view or sliding window size of the N4 network is ``(1, 95, 95)``, which is ``95 x 95 x 1`` in the x, y, z dimensions):
+Step 3 - Enter the commands below (note that ZNN should state that the field of view or sliding window size of the N4 network is ``(1, 95, 95)``, which is ``95 x 95 x 1`` in the x, y, z dimensions):
 ::
     sudo su
     cd /opt/znn-release/python
     screen
     python train.py -c config.cfg
 
-Step 5 - Monitor how the training of the neural network proceeds.  You should see output similar to the following as training proceeds:
+Step 4 - Monitor how the training of the neural network proceeds.  You should see output similar to the following as training proceeds:
 ::
     start from  1
     save as  ../experiments/piriform/N4/net_init.h5
@@ -637,18 +635,19 @@ ZNN does not check convergence and so it will run until the maximum number of it
     cd /opt/znn-release/python
     screen -r
 
-Step 6 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
+Step 5 - Once you have determined that the neural network fits the data well enough (e.g.: flat-line in rand score), simply terminate training by typing ``ctrl + C``. Try training the neural network for 2-3 hours before terminating training.
 
-Step 7 - We now need to run inference or forward pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands (need to be root user - type ``sudo su`` if needed):
+Step 6 - We now need to run inference or forward pass on the test stack (stack1) using the trained neural network model (note that we train on stack2). Type the following commands (need to be root user - type ``sudo su`` if needed):
 ::
     cd /opt/znn-release/python
     python forward.py -c config.cfg
-Step 8 - Enter the commands below to evaluate the performance of the neural network on the test stack (need to be root user - type ``sudo su`` if needed):
+
+Step 7 - Enter the commands below to evaluate the performance of the neural network on the test stack (need to be root user - type ``sudo su`` if needed):
 ::
     cd /opt/znn-release/segascorus
     python error.py /opt/znn-release/experiments/piriform/N4/out_sample1_output_0.tif /opt/znn-release/dataset/test/stack1-label.tif
 
-Step 9 - The python script should output something similar to the content below:
+Step 8 - The python script should output something similar to the content below:
 ::
     Rand Error Full: 0.0373468767395
     Rand Error Merge: 6.46534700016e-06
